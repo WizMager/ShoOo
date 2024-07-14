@@ -1,5 +1,4 @@
-﻿using Services.InitializeService.Impl;
-using Services.SceneLoadingService.Impl;
+﻿using Services.SceneLoadingService.Impl;
 using Zenject;
 
 namespace Project
@@ -11,7 +10,6 @@ namespace Project
             SignalBusInstaller.Install(Container);
             
             Container.BindInterfacesAndSelfTo<SceneLoadingService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<InitializeService>().AsSingle();
         }
     }
 }

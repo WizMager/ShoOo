@@ -1,3 +1,4 @@
+using Game.Controllers.Controls;
 using Game.Controllers.Initialize;
 using Zenject;
 
@@ -18,6 +19,7 @@ namespace Game
         {
             var container = Container;
 			Urgent(container);
+			Normal(container);
             Container.BindInterfacesAndSelfTo<Bootstrap.Bootstrap>().AsSingle().NonLazy();
 		}
 
@@ -25,6 +27,13 @@ namespace Game
 		{
 			// 0001
 			container.BindInterfacesAndSelfTo<InitializeController>().AsSingle();	// 0001
+		}
+
+		private void Normal(DiContainer container)
+		{
+			// 0045
+			container.BindInterfacesAndSelfTo<AimingController>().AsSingle();	// 0045
+			container.BindInterfacesAndSelfTo<MovementController>().AsSingle();	// 0050
 		}	
     }
 }

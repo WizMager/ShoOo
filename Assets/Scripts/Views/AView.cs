@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Views.Modules;
+using Exception = System.Exception;
 
 namespace Views
 {
@@ -20,6 +21,19 @@ namespace Views
             }
         }
 
+        public T GetModule<T>() where T : AModule
+        {
+            foreach (var module in modules)
+            {
+                if (module is T needModule)
+                {
+                    return needModule;
+                }
+            }
+            
+            throw new Exception($"[{name}]: Does not have module with type {typeof(T)}");
+        }
+        
         public void Dispose()
         {
             _disposable.Dispose();

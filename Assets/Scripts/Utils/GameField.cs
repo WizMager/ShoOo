@@ -10,14 +10,16 @@ namespace Utils
     public class GameField : MonoBehaviour
     {
         [SerializeField] private List<AAiView> aiViews;
-        [SerializeField] private List<AView> testObject;
+        [SerializeField] private AView playerCharacterView;
+        
+        public PlayerCharacterView PlayerCharacterView => playerCharacterView as PlayerCharacterView;
         
         public IViewInitializable[] AllViewInitializables
         {
             get
             {
                 var list = new List<IViewInitializable>();
-                list.AddRange(testObject);
+                list.Add(playerCharacterView);
 
                 return list.ToArray();
             }
@@ -40,7 +42,7 @@ namespace Utils
         {
             ClearAllFields();
 
-            testObject = new List<AView>(FindObjectsOfType<AView>().Where(view => view is not AAiView));
+            playerCharacterView = FindObjectOfType<PlayerCharacterView>();
 
             aiViews = new List<AAiView>(FindObjectsOfType<AAiView>().ToArray());
             
@@ -49,7 +51,7 @@ namespace Utils
 
         private void ClearAllFields()
         {
-            testObject = null;
+            playerCharacterView= null;
         }
     }
 }
