@@ -8,7 +8,6 @@ namespace Services.InputService
         public bool IsMoving { get; }
         bool IsAiming { get; }
         public Vector3 MoveDirection { get; }
-        Vector3 AimPosition { get; }
-        InputActions InputActions { get; }
+        Vector2 AimPosition { get; }
     }
 }

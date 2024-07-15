@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PoinerPosition",
+                    "name": "PointerPosition",
                     "type": "Value",
                     "id": "8920dc7f-9ca2-4dcd-9d3d-11e687468a4d",
                     "expectedControlType": "Vector2",
@@ -127,7 +127,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Main",
-                    "action": "PoinerPosition",
+                    "action": "PointerPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

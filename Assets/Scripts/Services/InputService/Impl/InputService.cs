@@ -16,16 +16,7 @@ namespace Services.InputService.Impl
                 return new Vector3(direction.x, 0, direction.y);
             }
         }
-        public Vector3 AimPosition
-        {
-            get
-            {
-                var position = _inputActions.KeayboardAndMouse.PoinerPosition.ReadValue<Vector2>();
-                return new Vector3(position.x, 0, position.y);
-            }
-        }
-        //TODO; for debug
-        public InputActions InputActions => _inputActions;
+        public Vector2 AimPosition => _inputActions.KeayboardAndMouse.PointerPosition.ReadValue<Vector2>();
 
         private readonly InputActions _inputActions;
 

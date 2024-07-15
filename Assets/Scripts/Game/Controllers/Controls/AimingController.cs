@@ -31,11 +31,11 @@ namespace Game.Controllers.Controls
 
             var camera = Camera.main;
             if (camera == null) return;
+
+            var pointerPosition = _inputService.AimPosition;
+            var pointerWorldPosition = camera.ScreenToWorldPoint(pointerPosition);
             
-            var mousePosition = _inputService.AimPosition;
-            var mouseWorldPosition = camera.ScreenToWorldPoint(mousePosition);
-            mouseWorldPosition.z = 0;
-            _aimingModule.RotateCharacter(mouseWorldPosition);
+            _aimingModule.RotateCharacter(pointerWorldPosition);
         }
     }
 }

@@ -55,7 +55,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""PoinerPosition"",
+                    ""name"": ""PointerPosition"",
                     ""type"": ""Value"",
                     ""id"": ""8920dc7f-9ca2-4dcd-9d3d-11e687468a4d"",
                     ""expectedControlType"": ""Vector2"",
@@ -149,7 +149,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Main"",
-                    ""action"": ""PoinerPosition"",
+                    ""action"": ""PointerPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -169,7 +169,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_KeayboardAndMouse_Movement = m_KeayboardAndMouse.FindAction("Movement", throwIfNotFound: true);
         m_KeayboardAndMouse_Attack = m_KeayboardAndMouse.FindAction("Attack", throwIfNotFound: true);
         m_KeayboardAndMouse_IsAiming = m_KeayboardAndMouse.FindAction("IsAiming", throwIfNotFound: true);
-        m_KeayboardAndMouse_PoinerPosition = m_KeayboardAndMouse.FindAction("PoinerPosition", throwIfNotFound: true);
+        m_KeayboardAndMouse_PointerPosition = m_KeayboardAndMouse.FindAction("PointerPosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -234,7 +234,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeayboardAndMouse_Movement;
     private readonly InputAction m_KeayboardAndMouse_Attack;
     private readonly InputAction m_KeayboardAndMouse_IsAiming;
-    private readonly InputAction m_KeayboardAndMouse_PoinerPosition;
+    private readonly InputAction m_KeayboardAndMouse_PointerPosition;
     public struct KeayboardAndMouseActions
     {
         private @InputActions m_Wrapper;
@@ -242,7 +242,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_KeayboardAndMouse_Movement;
         public InputAction @Attack => m_Wrapper.m_KeayboardAndMouse_Attack;
         public InputAction @IsAiming => m_Wrapper.m_KeayboardAndMouse_IsAiming;
-        public InputAction @PoinerPosition => m_Wrapper.m_KeayboardAndMouse_PoinerPosition;
+        public InputAction @PointerPosition => m_Wrapper.m_KeayboardAndMouse_PointerPosition;
         public InputActionMap Get() { return m_Wrapper.m_KeayboardAndMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -261,9 +261,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @IsAiming.started += instance.OnIsAiming;
             @IsAiming.performed += instance.OnIsAiming;
             @IsAiming.canceled += instance.OnIsAiming;
-            @PoinerPosition.started += instance.OnPoinerPosition;
-            @PoinerPosition.performed += instance.OnPoinerPosition;
-            @PoinerPosition.canceled += instance.OnPoinerPosition;
+            @PointerPosition.started += instance.OnPointerPosition;
+            @PointerPosition.performed += instance.OnPointerPosition;
+            @PointerPosition.canceled += instance.OnPointerPosition;
         }
 
         private void UnregisterCallbacks(IKeayboardAndMouseActions instance)
@@ -277,9 +277,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @IsAiming.started -= instance.OnIsAiming;
             @IsAiming.performed -= instance.OnIsAiming;
             @IsAiming.canceled -= instance.OnIsAiming;
-            @PoinerPosition.started -= instance.OnPoinerPosition;
-            @PoinerPosition.performed -= instance.OnPoinerPosition;
-            @PoinerPosition.canceled -= instance.OnPoinerPosition;
+            @PointerPosition.started -= instance.OnPointerPosition;
+            @PointerPosition.performed -= instance.OnPointerPosition;
+            @PointerPosition.canceled -= instance.OnPointerPosition;
         }
 
         public void RemoveCallbacks(IKeayboardAndMouseActions instance)
@@ -311,6 +311,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnIsAiming(InputAction.CallbackContext context);
-        void OnPoinerPosition(InputAction.CallbackContext context);
+        void OnPointerPosition(InputAction.CallbackContext context);
     }
 }
