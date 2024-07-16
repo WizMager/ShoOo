@@ -24,7 +24,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     ""name"": ""InputActions"",
     ""maps"": [
         {
-            ""name"": ""KeayboardAndMouse"",
+            ""name"": ""KeyboardAndMouse"",
             ""id"": ""ac6a5113-7e45-4480-8c53-832ad53fe6b6"",
             ""actions"": [
                 {
@@ -164,12 +164,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // KeayboardAndMouse
-        m_KeayboardAndMouse = asset.FindActionMap("KeayboardAndMouse", throwIfNotFound: true);
-        m_KeayboardAndMouse_Movement = m_KeayboardAndMouse.FindAction("Movement", throwIfNotFound: true);
-        m_KeayboardAndMouse_Attack = m_KeayboardAndMouse.FindAction("Attack", throwIfNotFound: true);
-        m_KeayboardAndMouse_IsAiming = m_KeayboardAndMouse.FindAction("IsAiming", throwIfNotFound: true);
-        m_KeayboardAndMouse_PointerPosition = m_KeayboardAndMouse.FindAction("PointerPosition", throwIfNotFound: true);
+        // KeyboardAndMouse
+        m_KeyboardAndMouse = asset.FindActionMap("KeyboardAndMouse", throwIfNotFound: true);
+        m_KeyboardAndMouse_Movement = m_KeyboardAndMouse.FindAction("Movement", throwIfNotFound: true);
+        m_KeyboardAndMouse_Attack = m_KeyboardAndMouse.FindAction("Attack", throwIfNotFound: true);
+        m_KeyboardAndMouse_IsAiming = m_KeyboardAndMouse.FindAction("IsAiming", throwIfNotFound: true);
+        m_KeyboardAndMouse_PointerPosition = m_KeyboardAndMouse.FindAction("PointerPosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,30 +228,30 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // KeayboardAndMouse
-    private readonly InputActionMap m_KeayboardAndMouse;
-    private List<IKeayboardAndMouseActions> m_KeayboardAndMouseActionsCallbackInterfaces = new List<IKeayboardAndMouseActions>();
-    private readonly InputAction m_KeayboardAndMouse_Movement;
-    private readonly InputAction m_KeayboardAndMouse_Attack;
-    private readonly InputAction m_KeayboardAndMouse_IsAiming;
-    private readonly InputAction m_KeayboardAndMouse_PointerPosition;
-    public struct KeayboardAndMouseActions
+    // KeyboardAndMouse
+    private readonly InputActionMap m_KeyboardAndMouse;
+    private List<IKeyboardAndMouseActions> m_KeyboardAndMouseActionsCallbackInterfaces = new List<IKeyboardAndMouseActions>();
+    private readonly InputAction m_KeyboardAndMouse_Movement;
+    private readonly InputAction m_KeyboardAndMouse_Attack;
+    private readonly InputAction m_KeyboardAndMouse_IsAiming;
+    private readonly InputAction m_KeyboardAndMouse_PointerPosition;
+    public struct KeyboardAndMouseActions
     {
         private @InputActions m_Wrapper;
-        public KeayboardAndMouseActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_KeayboardAndMouse_Movement;
-        public InputAction @Attack => m_Wrapper.m_KeayboardAndMouse_Attack;
-        public InputAction @IsAiming => m_Wrapper.m_KeayboardAndMouse_IsAiming;
-        public InputAction @PointerPosition => m_Wrapper.m_KeayboardAndMouse_PointerPosition;
-        public InputActionMap Get() { return m_Wrapper.m_KeayboardAndMouse; }
+        public KeyboardAndMouseActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_KeyboardAndMouse_Movement;
+        public InputAction @Attack => m_Wrapper.m_KeyboardAndMouse_Attack;
+        public InputAction @IsAiming => m_Wrapper.m_KeyboardAndMouse_IsAiming;
+        public InputAction @PointerPosition => m_Wrapper.m_KeyboardAndMouse_PointerPosition;
+        public InputActionMap Get() { return m_Wrapper.m_KeyboardAndMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(KeayboardAndMouseActions set) { return set.Get(); }
-        public void AddCallbacks(IKeayboardAndMouseActions instance)
+        public static implicit operator InputActionMap(KeyboardAndMouseActions set) { return set.Get(); }
+        public void AddCallbacks(IKeyboardAndMouseActions instance)
         {
-            if (instance == null || m_Wrapper.m_KeayboardAndMouseActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_KeayboardAndMouseActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_KeyboardAndMouseActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_KeyboardAndMouseActionsCallbackInterfaces.Add(instance);
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
@@ -266,7 +266,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PointerPosition.canceled += instance.OnPointerPosition;
         }
 
-        private void UnregisterCallbacks(IKeayboardAndMouseActions instance)
+        private void UnregisterCallbacks(IKeyboardAndMouseActions instance)
         {
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
@@ -282,21 +282,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PointerPosition.canceled -= instance.OnPointerPosition;
         }
 
-        public void RemoveCallbacks(IKeayboardAndMouseActions instance)
+        public void RemoveCallbacks(IKeyboardAndMouseActions instance)
         {
-            if (m_Wrapper.m_KeayboardAndMouseActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_KeyboardAndMouseActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IKeayboardAndMouseActions instance)
+        public void SetCallbacks(IKeyboardAndMouseActions instance)
         {
-            foreach (var item in m_Wrapper.m_KeayboardAndMouseActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_KeyboardAndMouseActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_KeayboardAndMouseActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_KeyboardAndMouseActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public KeayboardAndMouseActions @KeayboardAndMouse => new KeayboardAndMouseActions(this);
+    public KeyboardAndMouseActions @KeyboardAndMouse => new KeyboardAndMouseActions(this);
     private int m_MainSchemeIndex = -1;
     public InputControlScheme MainScheme
     {
@@ -306,7 +306,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_MainSchemeIndex];
         }
     }
-    public interface IKeayboardAndMouseActions
+    public interface IKeyboardAndMouseActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);

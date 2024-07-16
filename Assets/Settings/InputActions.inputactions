@@ -2,7 +2,7 @@
     "name": "InputActions",
     "maps": [
         {
-            "name": "KeayboardAndMouse",
+            "name": "KeyboardAndMouse",
             "id": "ac6a5113-7e45-4480-8c53-832ad53fe6b6",
             "actions": [
                 {

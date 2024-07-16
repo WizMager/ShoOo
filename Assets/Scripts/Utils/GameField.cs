@@ -4,6 +4,7 @@ using Alchemy.Inspector;
 using UnityEngine;
 using Views;
 using Views.Impl;
+using Views.Impl.Ai;
 
 namespace Utils
 {

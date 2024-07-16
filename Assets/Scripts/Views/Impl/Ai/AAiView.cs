@@ -1,7 +1,7 @@
 ﻿using BehaviorDesigner.Runtime;
 using UnityEngine;
 
-namespace Views.Impl
+namespace Views.Impl.Ai
 {
     public abstract class AAiView : AView, IAi
     {

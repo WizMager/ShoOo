@@ -12,11 +12,11 @@ namespace Services.InputService.Impl
         {
             get
             {
-                var direction = _inputActions.KeayboardAndMouse.Movement.ReadValue<Vector2>();
+                var direction = _inputActions.KeyboardAndMouse.Movement.ReadValue<Vector2>();
                 return new Vector3(direction.x, 0, direction.y);
             }
         }
-        public Vector2 AimPosition => _inputActions.KeayboardAndMouse.PointerPosition.ReadValue<Vector2>();
+        public Vector2 AimPosition => _inputActions.KeyboardAndMouse.PointerPosition.ReadValue<Vector2>();
 
         private readonly InputActions _inputActions;
 
@@ -25,20 +25,20 @@ namespace Services.InputService.Impl
             _inputActions = new InputActions();
             _inputActions.Enable();
             
-            _inputActions.KeayboardAndMouse.Attack.performed += _ => IsFire = true;
-            _inputActions.KeayboardAndMouse.Attack.canceled += _ => IsFire = false;
+            _inputActions.KeyboardAndMouse.Attack.performed += _ => IsFire = true;
+            _inputActions.KeyboardAndMouse.Attack.canceled += _ => IsFire = false;
 
-            _inputActions.KeayboardAndMouse.Movement.started += _ => IsMoving = true;
-            _inputActions.KeayboardAndMouse.Movement.canceled += _ => IsMoving = false;
+            _inputActions.KeyboardAndMouse.Movement.started += _ => IsMoving = true;
+            _inputActions.KeyboardAndMouse.Movement.canceled += _ => IsMoving = false;
             
-            _inputActions.KeayboardAndMouse.IsAiming.started += _ => IsAiming = true;
-            _inputActions.KeayboardAndMouse.IsAiming.canceled += _ => IsAiming = false;
+            _inputActions.KeyboardAndMouse.IsAiming.started += _ => IsAiming = true;
+            _inputActions.KeyboardAndMouse.IsAiming.canceled += _ => IsAiming = false;
         }
         
         public void Dispose()
         {
-            _inputActions.KeayboardAndMouse.Attack.Dispose();
-            _inputActions.KeayboardAndMouse.Movement.Dispose();
+            _inputActions.KeyboardAndMouse.Attack.Dispose();
+            _inputActions.KeyboardAndMouse.Movement.Dispose();
             
             _inputActions.Disable();
         }
