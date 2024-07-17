@@ -4,8 +4,8 @@ namespace Services.EnemySpawnService
 {
     public interface IEnemySpawnService
     {
-        T Spawn<T>(EAiType aiType) where T : AAiView;
+        AAiView Spawn(EAiType aiType);
         
-        void Despawn<T>(T ai) where T : AAiView;
+        void Despawn(AAiView ai);
     }
 }

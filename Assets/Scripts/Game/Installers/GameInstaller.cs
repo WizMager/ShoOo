@@ -1,4 +1,5 @@
-﻿using Services.InitializeService.Impl;
+﻿using Services.EnemySpawnService.Impl;
+using Services.InitializeService.Impl;
 using Services.InputService.Impl;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace Game.Installers
         {
             Container.BindInterfacesAndSelfTo<InitializeService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemySpawnService>().AsSingle();
         }
     }
 }
