@@ -14,7 +14,7 @@ namespace Views.Impl.Ai
 
         public void ResetAi()
         {
-            //TODO: realize reset state of ai
+            gameObject.SetActive(false);
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Services.EnemySpawnService.Impl
                 {
                     case EAiType.Melee:
                         var prefab = _prefabBase.GetAiPrefabWithType(EAiType.Melee);
+                        
                         _meleeAiPool = new AiPool<MeleeAiView>(prefab);
                         break;
                     default:

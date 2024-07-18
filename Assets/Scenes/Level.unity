@@ -631,7 +631,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 872186075}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 872186075}
   m_Lens:
     FieldOfView: 60
@@ -744,7 +744,6 @@ GameObject:
   - component: {fileID: 1574808005}
   - component: {fileID: 1574808008}
   - component: {fileID: 1574808007}
-  - component: {fileID: 1574808006}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -767,18 +766,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1563111583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1574808006
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574808004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1574808007
 MonoBehaviour:
   m_ObjectHideFlags: 3
