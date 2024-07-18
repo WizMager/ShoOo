@@ -12,8 +12,10 @@ namespace Utils
     {
         [SerializeField] private List<AAiView> aiViews;
         [SerializeField] private AView playerCharacterView;
+        [SerializeField] private List<EnemySpawner.EnemySpawner> enemySpawners;
         
         public PlayerCharacterView PlayerCharacterView => playerCharacterView as PlayerCharacterView;
+        public List<EnemySpawner.EnemySpawner> EnemySpawners => enemySpawners;
         
         public IViewInitializable[] AllViewInitializables
         {
