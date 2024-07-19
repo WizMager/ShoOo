@@ -597,6 +597,9 @@ MonoBehaviour:
   - aiType: 0
     maxNumber: 2
     currentNumber: 0
+  spawnRadius: 5
+  spawnCooldown: 2
+  timeAfterSpawn: 0
 --- !u!1 &1563111582
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +720,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiViews: []
   playerCharacterView: {fileID: 872186077}
-  enemySpawners: []
+  enemySpawners:
+  - {fileID: 1324087172}
 --- !u!114 &1571733320
 MonoBehaviour:
   m_ObjectHideFlags: 0

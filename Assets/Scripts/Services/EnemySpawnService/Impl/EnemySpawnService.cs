@@ -41,7 +41,7 @@ namespace Services.EnemySpawnService.Impl
             switch (aiType)
             {
                 case EAiType.Melee:
-                    return _meleeAiPool.GetAi();
+                    return !_meleeAiPool.IsReady ? null : _meleeAiPool.GetAi();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(aiType), aiType, null);
             }

@@ -16,5 +16,10 @@ namespace Views.Impl.Ai
         {
             gameObject.SetActive(false);
         }
+
+        public void ActivateAi()
+        {
+            gameObject.SetActive(true);
+        }
     }
 }

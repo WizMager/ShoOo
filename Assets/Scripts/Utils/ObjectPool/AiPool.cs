@@ -14,6 +14,8 @@ namespace Utils.ObjectPool
         private readonly Stack<T> _aiStack = new ();
         private readonly AssetReference _aiPrefab;
         private readonly Transform _poolContainerTransform;
+        
+        public bool IsReady => _aiStack.Count > 0;
 
         public AiPool(AssetReference aiPrefab, int size = 5)
         {
