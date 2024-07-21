@@ -21,7 +21,7 @@ namespace Views
             }
         }
 
-        public T GetModule<T>() where T : AModule
+        public T GetModule<T>() where T : AModule //TODO: change to Try Get Module
         {
             foreach (var module in modules)
             {

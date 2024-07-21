@@ -4,7 +4,7 @@ namespace Services.InputService
 {
     public interface IInputService
     {
-        bool IsFire { get; }
+        bool IsAttack { get; }
         public bool IsMoving { get; }
         bool IsAiming { get; }
         public Vector3 MoveDirection { get; }
