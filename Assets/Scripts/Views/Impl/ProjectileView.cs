@@ -1,5 +1,4 @@
-﻿using System;
-using UniRx;
+﻿using R3;
 using UnityEngine;
 using Utils.LayerMask;
 using Views.Impl.Ai;
@@ -8,7 +7,7 @@ namespace Views.Impl
 {
     public class ProjectileView : AView
     {
-        public IObservable<AAiView> OnAiHit => _aiHitReactiveCommand;
+        public Observable<AAiView> OnAiHit => _aiHitReactiveCommand;
         
         private readonly ReactiveCommand<AAiView> _aiHitReactiveCommand = new ();
         
@@ -22,6 +21,18 @@ namespace Views.Impl
                 
                 _aiHitReactiveCommand.Execute(aiView);
             }
+        }
+
+        public void ResetProjectile()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void ActivateProjectile()
+        {
+            gameObject.SetActive(true);
+            
+            
         }
     }
 }

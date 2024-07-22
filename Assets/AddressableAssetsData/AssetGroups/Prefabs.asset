@@ -27,6 +27,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cd09b0488b48874194ee3c29e92ebfb
+    m_Address: Assets/Prefabs/WeaponsProjectiles/PistolBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8ef9a714c98736d4797ece24834a00ee, type: 2}
   m_SchemaSet:
