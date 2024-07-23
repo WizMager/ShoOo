@@ -10,7 +10,6 @@ namespace Utils.Weapons
         [SerializeField] private int damage;
         [SerializeField] private float fireRate;
         [SerializeField] private AssetReference projectilePrefab;
-        [SerializeField] private bool isOneTouchProjectiles;
         [SerializeField] private float projectileSpeed;
         
         private ProjectilePool _weaponProjectilePool;

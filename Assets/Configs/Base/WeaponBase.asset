@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 533f1ac6a7724eb0a4f68551dc77673c, type: 3}
-  m_Name: GameConfigInstaller
+  m_Script: {fileID: 11500000, guid: 003410ee028a4aff885b7aee6826603c, type: 3}
+  m_Name: WeaponBase
   m_EditorClassIdentifier: 
-  prefabBase: {fileID: 11400000, guid: 09e71b96fe7d11c40b5d34a439a5f3f7, type: 2}
-  weaponBase: {fileID: 11400000, guid: 5eefc3e8d799063489f3a65e41c6a6c7, type: 2}
+  weapons:
+  - m_AssetGUID: 2bb79421c93f9904486ec7a5b32405e8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
