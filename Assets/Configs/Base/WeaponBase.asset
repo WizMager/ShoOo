@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponBase
   m_EditorClassIdentifier: 
   weapons:
-  - m_AssetGUID: 2bb79421c93f9904486ec7a5b32405e8
+  - m_AssetGUID: 0f6dd435573fdf844bf990ccb7a88e36
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

@@ -46,13 +46,12 @@ namespace Utils.Weapons
             foreach (var weapon in weaponBase.GetAllWeapons())
             {
                 var instantiateAsync = Addressables.InstantiateAsync(weapon);
-                Debug.Log(instantiateAsync.Status);
                 
                 asyncOperations.Add(instantiateAsync);
             }
             
             await UniTask.WhenAll(asyncOperations.Select(o => o.Task.AsUniTask()).ToArray());
-            Debug.Log(asyncOperations.Count);
+            
             foreach (var asyncOperationHandle in asyncOperations)
             {
                 var hasWeaponComponent = asyncOperationHandle.Result.TryGetComponent(out Weapon weapon);

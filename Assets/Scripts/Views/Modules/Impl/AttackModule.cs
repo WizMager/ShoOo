@@ -1,4 +1,5 @@
-﻿using R3;
+﻿using System;
+using R3;
 using Services.WeaponService;
 using UnityEngine;
 using Utils.Weapons;
@@ -11,14 +12,13 @@ namespace Views.Modules.Impl
         [SerializeField] private Transform shootPoint;
 
         [Inject] private IWeaponService _weaponService;
-        private Weapon _currentWeapon; 
+        private Weapon _currentWeapon;
         
         public override void Initialize(AView view, CompositeDisposable disposable)
         {
             base.Initialize(view, disposable);
             
-            Observable.NextFrame().Subscribe(_ => ChangeWeapon(EWeaponType.Pistol));
-            
+            Observable.Timer(TimeSpan.FromSeconds(0.2)).Subscribe(_ => ChangeWeapon(EWeaponType.Pistol));
         }
 
         public void Shoot()
