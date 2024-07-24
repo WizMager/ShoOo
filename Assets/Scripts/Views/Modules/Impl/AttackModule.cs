@@ -1,27 +1,24 @@
-﻿using System.Collections.Generic;
-using R3;
+﻿using R3;
+using Services.WeaponService;
 using UnityEngine;
 using Utils.Weapons;
+using Zenject;
 
 namespace Views.Modules.Impl
 {
     public class AttackModule : AModule
     {
-        [SerializeField] private List<Weapon> weapons;
         [SerializeField] private Transform shootPoint;
 
+        [Inject] private IWeaponService _weaponService;
         private Weapon _currentWeapon; 
         
         public override void Initialize(AView view, CompositeDisposable disposable)
         {
-            foreach (var weapon in weapons)
-            {
-                weapon.Initialize();
-            }
-            
             base.Initialize(view, disposable);
             
-            ChangeWeapon(EWeaponType.Pistol);
+            Observable.NextFrame().Subscribe(_ => ChangeWeapon(EWeaponType.Pistol));
+            
         }
 
         public void Shoot()
@@ -31,15 +28,10 @@ namespace Views.Modules.Impl
         
         public void ChangeWeapon(EWeaponType weaponType)
         {
-            foreach (var weapon in weapons)
-            {
-                if (weaponType != weapon.WeaponType) continue;
-
-                _currentWeapon = weapon;
-                return;
-            }
-            
-            Debug.LogError($"[{typeof(AttackModule)}]: There is no weapon with type {weaponType}");
+            _currentWeapon = _weaponService.GetWeapon(weaponType);
+            _currentWeapon.transform.SetParent(shootPoint);
+            _currentWeapon.transform.position = shootPoint.position;
+            _currentWeapon.transform.rotation = shootPoint.rotation;
         }
     }
 }

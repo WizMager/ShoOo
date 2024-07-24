@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Scenes
+  m_Name: Materials
   m_EditorClassIdentifier: 
-  m_GroupName: Scenes
+  m_GroupName: Materials
   m_Data:
     m_SerializedData: []
-  m_GUID: 804e11ce8e6017c4199a90b1aa5fc198
+  m_GUID: f6916e3a249d76447b69ee7054da1742
   m_SerializeEntries:
-  - m_GUID: c7ab6e48411d44849b8fe99552cff57d
-    m_Address: Level
+  - m_GUID: 2bb79421c93f9904486ec7a5b32405e8
+    m_Address: Assets/Materials/Weapons/Pistol/Pistol.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6ccee84ebdb95c745869566da35cba4e
-    m_Address: Game
+  - m_GUID: 0e95bc8483d53cc47837b24c72b44a06
+    m_Address: Assets/Materials/Weapons/Pistol/PistolBuller.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +31,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 8ef9a714c98736d4797ece24834a00ee, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 33aa6c530f93dc34fbeda21b7d336804, type: 2}
-    - {fileID: 11400000, guid: 3f57742bb0b245c4aa7e0a465fe34a2b, type: 2}
+    - {fileID: 11400000, guid: 676a8e6e8759c0744ad98baf3c5f1309, type: 2}
+    - {fileID: 11400000, guid: ed214a0627025a2438549c304d3917fd, type: 2}
