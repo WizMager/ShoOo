@@ -5,11 +5,13 @@ using Views.Impl.Ai;
 
 namespace Views.Impl
 {
-    public class ProjectileView : AView
+    public class ProjectileView : AView //TODO: rework need abstract projectiles
     {
-        public Observable<AAiView> OnAiHit => _aiHitReactiveCommand;
+        [SerializeField] private Rigidbody projectileRigidbody;
         
         private readonly ReactiveCommand<AAiView> _aiHitReactiveCommand = new ();
+        
+        public Observable<AAiView> OnAiHit => _aiHitReactiveCommand;
         
         private void OnTriggerEnter(Collider other)
         {
@@ -28,11 +30,10 @@ namespace Views.Impl
             gameObject.SetActive(false);
         }
 
-        public void ActivateProjectile()
+        public void ActivateProjectile(float projectileSpeed)
         {
             gameObject.SetActive(true);
-            
-            
+            projectileRigidbody.AddForce(transform.forward * projectileSpeed, ForceMode.Acceleration);
         }
     }
 }

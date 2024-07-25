@@ -9,10 +9,12 @@ namespace Views.Modules.Impl
 {
     public class AttackModule : AModule
     {
-        [SerializeField] private Transform shootPoint;
+        [SerializeField] private Transform weaponHoldPoint;
 
         [Inject] private IWeaponService _weaponService;
         private Weapon _currentWeapon;
+
+        public float FireRate => _currentWeapon.FireRate;
         
         public override void Initialize(AView view, CompositeDisposable disposable)
         {
@@ -23,15 +25,21 @@ namespace Views.Modules.Impl
 
         public void Shoot()
         {
-            _currentWeapon.ShootProjectile(shootPoint.position, shootPoint.rotation);
+            _currentWeapon.ShootProjectile();
         }
         
         public void ChangeWeapon(EWeaponType weaponType)
         {
             _currentWeapon = _weaponService.GetWeapon(weaponType);
-            _currentWeapon.transform.SetParent(shootPoint);
-            _currentWeapon.transform.position = shootPoint.position;
-            _currentWeapon.transform.rotation = shootPoint.rotation;
+            
+            SetupWeapon();
+        }
+
+        private void SetupWeapon()
+        {
+            _currentWeapon.transform.SetParent(weaponHoldPoint);
+            _currentWeapon.transform.position = weaponHoldPoint.position;
+            _currentWeapon.transform.rotation = weaponHoldPoint.rotation;
         }
     }
 }

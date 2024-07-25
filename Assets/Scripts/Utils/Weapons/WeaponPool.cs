@@ -46,8 +46,10 @@ namespace Utils.Weapons
             foreach (var weapon in weaponBase.GetAllWeapons())
             {
                 var instantiateAsync = Addressables.InstantiateAsync(weapon);
+                var instantiateSecondAsync = Addressables.InstantiateAsync(weapon);
                 
                 asyncOperations.Add(instantiateAsync);
+                asyncOperations.Add(instantiateSecondAsync);
             }
             
             await UniTask.WhenAll(asyncOperations.Select(o => o.Task.AsUniTask()).ToArray());
@@ -61,7 +63,9 @@ namespace Utils.Weapons
                     throw new Exception($"[{nameof(WeaponPool)}]: There is no {nameof(Weapon)} component on {asyncOperationHandle.Result.name}");
                 }
                 
+                weapon.Initialize();
                 weapon.transform.SetParent(_poolContainerTransform);
+                weapon.gameObject.SetActive(false);
                 
                 _weaponList.Add(weapon);
             }

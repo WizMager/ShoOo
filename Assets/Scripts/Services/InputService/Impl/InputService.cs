@@ -33,9 +33,6 @@ namespace Services.InputService.Impl
             
             _inputActions.KeyboardAndMouse.IsAiming.started += _ => IsAiming = true;
             _inputActions.KeyboardAndMouse.IsAiming.canceled += _ => IsAiming = false;
-
-            _inputActions.KeyboardAndMouse.Attack.performed += _ => IsAttack = true;
-            _inputActions.KeyboardAndMouse.Attack.performed += _ => IsAttack = false;
         }
         
         public void Dispose()

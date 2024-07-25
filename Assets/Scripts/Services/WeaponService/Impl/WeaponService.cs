@@ -14,11 +14,15 @@ namespace Services.WeaponService.Impl
 
         public Weapon GetWeapon(EWeaponType weaponType)
         {
-            return _weaponPool.GetWeapon(weaponType);
+            var weapon = _weaponPool.GetWeapon(weaponType);
+            weapon.gameObject.SetActive(true);
+            
+            return weapon;
         }
 
         public void ReleaseWeapon(Weapon weapon)
         {
+            weapon.gameObject.SetActive(false);
             _weaponPool.ReleaseWeapon(weapon);
         }
     }
