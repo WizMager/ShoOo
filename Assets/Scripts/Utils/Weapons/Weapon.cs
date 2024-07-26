@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils.ObjectPool;
-using Views.Impl;
+using Views.Impl.Projectile.Impl;
 
 namespace Utils.Weapons
 {
@@ -12,24 +12,25 @@ namespace Utils.Weapons
         [SerializeField] private float projectileSpeed;
         [SerializeField] private Transform projectileShootPoint;
         
-        private ProjectilePool _weaponProjectilePool;
+        private ProjectilePool<PistolBullet> _weaponProjectilePool;
         
         [field:SerializeField] public EWeaponType WeaponType { get; private set; }
         [field: SerializeField] public float FireRate { get; private set; } = 2;
 
         public void Initialize()
         {
-            _weaponProjectilePool = new ProjectilePool(projectilePrefab);
+            _weaponProjectilePool = new ProjectilePool<PistolBullet>(projectilePrefab);
         }
         
-        public ProjectileView ShootProjectile()
+        public PistolBullet ShootProjectile()
         {
             var projectile = _weaponProjectilePool.GetProjectile();
 
             projectile.transform.position = projectileShootPoint.position;
             projectile.transform.rotation = projectileShootPoint.rotation;
             
-            projectile.ActivateProjectile(projectileSpeed);
+            projectile.ActivateProjectile();
+            projectile.Fly(projectileSpeed);
 
             return projectile;
         }

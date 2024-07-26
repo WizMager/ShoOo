@@ -3,12 +3,10 @@ using UnityEngine;
 using Utils.LayerMask;
 using Views.Impl.Ai;
 
-namespace Views.Impl
+namespace Views.Impl.Projectile
 {
-    public class ProjectileView : AView //TODO: rework need abstract projectiles
+    public class OneTouchProjectile : AProjectileView
     {
-        [SerializeField] private Rigidbody projectileRigidbody;
-        
         private readonly ReactiveCommand<AAiView> _aiHitReactiveCommand = new ();
         
         public Observable<AAiView> OnAiHit => _aiHitReactiveCommand;
@@ -23,17 +21,6 @@ namespace Views.Impl
                 
                 _aiHitReactiveCommand.Execute(aiView);
             }
-        }
-
-        public void ResetProjectile()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void ActivateProjectile(float projectileSpeed)
-        {
-            gameObject.SetActive(true);
-            projectileRigidbody.AddForce(transform.forward * projectileSpeed, ForceMode.Acceleration);
         }
     }
 }
