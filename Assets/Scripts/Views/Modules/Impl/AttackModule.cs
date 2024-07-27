@@ -3,6 +3,7 @@ using R3;
 using Services.WeaponService;
 using UnityEngine;
 using Utils.Weapons;
+using Views.Impl.Projectile.Impl;
 using Zenject;
 
 namespace Views.Modules.Impl
@@ -12,7 +13,7 @@ namespace Views.Modules.Impl
         [SerializeField] private Transform weaponHoldPoint;
 
         [Inject] private IWeaponService _weaponService;
-        private Weapon _currentWeapon;
+        private IShootable _currentWeapon;
 
         public float FireRate => _currentWeapon.FireRate;
         
@@ -25,21 +26,12 @@ namespace Views.Modules.Impl
 
         public void Shoot()
         {
-            _currentWeapon.ShootProjectile();
+            _currentWeapon.Shoot();
         }
         
         public void ChangeWeapon(EWeaponType weaponType)
         {
-            _currentWeapon = _weaponService.GetWeapon(weaponType);
-            
-            SetupWeapon();
-        }
-
-        private void SetupWeapon()
-        {
-            _currentWeapon.transform.SetParent(weaponHoldPoint);
-            _currentWeapon.transform.position = weaponHoldPoint.position;
-            _currentWeapon.transform.rotation = weaponHoldPoint.rotation;
+            _currentWeapon = _weaponService.GetWeapon(weaponType, weaponHoldPoint);
         }
     }
 }

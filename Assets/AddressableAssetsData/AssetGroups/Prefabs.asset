@@ -37,6 +37,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1a8cbca829298f4c9ba478a8137c30b
+    m_Address: Assets/Prefabs/Weapons/Shotgun/ShotgunBullet 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd8be28366a2645498bdaeb2e5217a5e
+    m_Address: Assets/Prefabs/Weapons/Shotgun/Shotgun.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8ef9a714c98736d4797ece24834a00ee, type: 2}
   m_SchemaSet:

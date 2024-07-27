@@ -4,5 +4,6 @@
     {
         None = 0,
         Pistol = 1,
+        Shotgun = 2,
     }
 }

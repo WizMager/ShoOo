@@ -1,10 +1,11 @@
-﻿using Utils.Weapons;
+﻿using UnityEngine;
+using Utils.Weapons;
 
 namespace Services.WeaponService
 {
     public interface IWeaponService
     {
-        Weapon GetWeapon(EWeaponType weaponType);
-        void ReleaseWeapon(Weapon weapon);
+        AWeapon GetWeapon(EWeaponType weaponType, Transform weaponHoldPoint);
+        void ReleaseWeapon(AWeapon aWeapon);
     }
 }

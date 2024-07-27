@@ -11,7 +11,7 @@ namespace Utils.Weapons
 {
     public class WeaponPool
     {
-        private readonly List<Weapon> _weaponList = new ();
+        private readonly List<AWeapon> _weaponList = new ();
         private readonly Transform _poolContainerTransform;
         
         public WeaponPool(IWeaponBase weaponBase)
@@ -22,7 +22,7 @@ namespace Utils.Weapons
             InstantiateProjectilesAtStart(weaponBase).Forget();
         }
         
-        public Weapon GetWeapon(EWeaponType weaponType)
+        public AWeapon GetWeapon(EWeaponType weaponType)
         {
             foreach (var weapon in _weaponList.Where(weapon => weapon.WeaponType == weaponType))
             {
@@ -32,11 +32,11 @@ namespace Utils.Weapons
             throw new Exception($"[{typeof(WeaponPool)}]; There is no weapon with type {weaponType} in list.");
         }
 
-        public void ReleaseWeapon(Weapon weapon)
+        public void ReleaseWeapon(AWeapon aWeapon)
         {
-            weapon.transform.SetParent(_poolContainerTransform);
+            aWeapon.transform.SetParent(_poolContainerTransform);
             
-            _weaponList.Add(weapon);
+            _weaponList.Add(aWeapon);
         }
 
         private async UniTaskVoid InstantiateProjectilesAtStart(IWeaponBase weaponBase)
@@ -56,11 +56,11 @@ namespace Utils.Weapons
             
             foreach (var asyncOperationHandle in asyncOperations)
             {
-                var hasWeaponComponent = asyncOperationHandle.Result.TryGetComponent(out Weapon weapon);
+                var hasWeaponComponent = asyncOperationHandle.Result.TryGetComponent(out AWeapon weapon);
                 
                 if (!hasWeaponComponent)
                 {
-                    throw new Exception($"[{nameof(WeaponPool)}]: There is no {nameof(Weapon)} component on {asyncOperationHandle.Result.name}");
+                    throw new Exception($"[{nameof(WeaponPool)}]: There is no {nameof(AWeapon)} component on {asyncOperationHandle.Result.name}");
                 }
                 
                 weapon.Initialize();

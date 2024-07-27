@@ -27,6 +27,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b31037f0015efd142a316f91f016b494
+    m_Address: Assets/Materials/Weapons/Shotgun/ShotgunProjectileMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3bd74e67718fbb49aa96ae45a34cde5
+    m_Address: Assets/Materials/Weapons/Shotgun/ShotgunMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8ef9a714c98736d4797ece24834a00ee, type: 2}
   m_SchemaSet:
