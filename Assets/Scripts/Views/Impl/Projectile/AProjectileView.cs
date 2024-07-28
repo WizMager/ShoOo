@@ -1,4 +1,5 @@
-﻿using R3;
+﻿using System;
+using R3;
 using UnityEngine;
 
 namespace Views.Impl.Projectile
@@ -9,15 +10,15 @@ namespace Views.Impl.Projectile
         protected readonly ReactiveCommand<Unit> ExistProjectileEndedCommand = new ();
         
         [SerializeField] private float timeExist = 5f;
-        
-        private readonly CompositeDisposable _disposable = new ();
+
+        private IDisposable _disposable;
         private float _leftTimeExist;
         
         public Observable<Unit> ExistProjectileEnded => ExistProjectileEndedCommand;
         
         public virtual void ResetProjectile()
         {
-            _disposable.Dispose();
+            _disposable?.Dispose();
             
             gameObject.SetActive(false);
         }
@@ -30,7 +31,7 @@ namespace Views.Impl.Projectile
             
             _leftTimeExist = timeExist;
             
-            Observable.EveryUpdate(UnityFrameProvider.TimeUpdate).Subscribe(_ => OnTimerUpdating(Time.deltaTime)).AddTo(_disposable);//TODO: dont work idk why
+            _disposable = Observable.EveryUpdate().Subscribe(_ => OnTimerUpdating(Time.deltaTime));
         }
 
         protected virtual void OnTimerUpdating(float deltaTime)
