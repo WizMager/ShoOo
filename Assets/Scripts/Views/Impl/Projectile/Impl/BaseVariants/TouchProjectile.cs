@@ -1,16 +1,11 @@
-﻿using R3;
-using UnityEngine;
+﻿using UnityEngine;
 using Utils.LayerMask;
 
-namespace Views.Impl.Projectile
+namespace Views.Impl.Projectile.Impl.BaseVariants
 {
-    public class OneTouchProjectile : AProjectileView
+    public class TouchProjectile : AProjectileView
     {
         [SerializeField] protected Rigidbody projectileRigidbody;
-        
-        private readonly ReactiveCommand<Unit> _projectileTouchedTarget = new ();
-        
-        public Observable<Unit> ProjectileTouchedTarget => _projectileTouchedTarget;
         
         private void OnTriggerEnter(Collider other)
         {
@@ -22,8 +17,12 @@ namespace Views.Impl.Projectile
                 
                 ai?.ReceiveDamage(Damage);
                 
-                _projectileTouchedTarget.Execute(default);
+                OnTouchAdditionalActions();
             }
+        }
+
+        protected virtual void OnTouchAdditionalActions()
+        {
         }
         
         public override void ResetProjectile()

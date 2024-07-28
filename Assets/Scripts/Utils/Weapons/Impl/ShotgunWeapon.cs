@@ -54,10 +54,10 @@ namespace Utils.Weapons.Impl
             projectile.ActivateProjectile(damage);
             projectile.Fly(projectileSpeed, shotDirection);
             
-            projectile.ProjectileTouchedTarget.Subscribe(_ => OnProjectileTouchedTarget(projectile)).AddTo(_disposable);
+            projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
         }
         
-        private void OnProjectileTouchedTarget(ShotgunBullet shotgunBullet)
+        private void OnExistProjectileEnded(ShotgunBullet shotgunBullet)
         {
             _weaponProjectilePool.ReleaseProjectile(shotgunBullet);
         }

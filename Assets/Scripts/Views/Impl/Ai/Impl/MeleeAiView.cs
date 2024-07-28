@@ -1,12 +1,7 @@
-﻿using UnityEngine;
-
-namespace Views.Impl.Ai.Impl
+﻿namespace Views.Impl.Ai.Impl
 {
-    public class MeleeAiView : AAiView, IDamagable
+    public class MeleeAiView : AAiView
     {
-        public void ReceiveDamage(float damage)
-        {
-            Debug.Log($"Ai {gameObject.name} receive damage: {damage}!");
-        }
+        
     }
 }

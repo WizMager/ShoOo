@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Views.Impl.Ai
 {
-    public abstract class AAiView : AView, IAi
+    public abstract class AAiView : AView, IAi, IDamagable
     {
         [SerializeField] private BehaviorTree behaviorTree;
         [SerializeField] private EAiType aiType;
@@ -20,6 +20,11 @@ namespace Views.Impl.Ai
         public void ActivateAi()
         {
             gameObject.SetActive(true);
+        }
+        
+        public void ReceiveDamage(float damage)
+        {
+            Debug.Log($"Ai {gameObject.name} receive damage: {damage}!");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Views.Impl.Projectile.Impl.BaseVariants;
 using Views.Impl.Projectile.Interfaces;
 
 namespace Views.Impl.Projectile.Impl

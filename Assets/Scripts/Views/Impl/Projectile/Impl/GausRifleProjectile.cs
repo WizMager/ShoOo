@@ -4,7 +4,7 @@ using Views.Impl.Projectile.Interfaces;
 
 namespace Views.Impl.Projectile.Impl
 {
-    public class PistolBullet : OneTouchProjectile, IForwardDirectionFlyable
+    public class GausRifleProjectile : TouchProjectile, IForwardDirectionFlyable
     {
         public void Fly(float speed)
         {

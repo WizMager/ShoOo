@@ -4,15 +4,15 @@ using Views.Impl.Projectile.Impl;
 
 namespace Utils.Weapons.Impl
 {
-    public class PistolWeapon : AWeapon
+    public class GausRifleWeapon : AWeapon
     {
-        private ProjectilePool<PistolBullet> _weaponProjectilePool;
+        private ProjectilePool<GausRifleProjectile> _weaponProjectilePool;
 
         private readonly CompositeDisposable _disposable = new ();
 
         public override void Initialize()
         {
-            _weaponProjectilePool = new ProjectilePool<PistolBullet>(projectilePrefab);
+            _weaponProjectilePool = new ProjectilePool<GausRifleProjectile>(projectilePrefab);
         }
 
         public override void Shoot()
@@ -28,9 +28,9 @@ namespace Utils.Weapons.Impl
             projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
         }
 
-        private void OnExistProjectileEnded(PistolBullet pistolBullet)
+        private void OnExistProjectileEnded(GausRifleProjectile gausRifleProjectile)
         {
-            _weaponProjectilePool.ReleaseProjectile(pistolBullet);
+            _weaponProjectilePool.ReleaseProjectile(gausRifleProjectile);
         }
     }
 }
