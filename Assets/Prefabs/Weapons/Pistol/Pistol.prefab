@@ -250,7 +250,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   projectileShootPoint: {fileID: 3816774097948499354}
-  damage: 0
-  projectileSpeed: 0
+  damage: 2
+  projectileSpeed: 5
   <WeaponType>k__BackingField: 1
   <FireRate>k__BackingField: 2

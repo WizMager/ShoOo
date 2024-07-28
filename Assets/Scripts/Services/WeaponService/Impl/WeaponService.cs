@@ -1,5 +1,4 @@
 ﻿using Configs.Weapons;
-using UnityEngine;
 using Utils.Weapons;
 
 namespace Services.WeaponService.Impl
@@ -13,18 +12,18 @@ namespace Services.WeaponService.Impl
             _weaponPool = new WeaponPool(weaponBase);
         }
 
-        public AWeapon GetWeapon(EWeaponType weaponType, Transform weaponHoldPoint)
+        public AWeapon GetWeapon(EWeaponType weaponType)
         {
             var weapon = _weaponPool.GetWeapon(weaponType);
-            weapon.gameObject.SetActive(true);
             
             return weapon;
         }
 
-        public void ReleaseWeapon(AWeapon aWeapon)
+        public void ReleaseWeapon(AWeapon weapon)
         {
-            aWeapon.gameObject.SetActive(false);
-            _weaponPool.ReleaseWeapon(aWeapon);
+            weapon.gameObject.SetActive(false);
+            
+            _weaponPool.ReleaseWeapon(weapon);
         }
     }
 }

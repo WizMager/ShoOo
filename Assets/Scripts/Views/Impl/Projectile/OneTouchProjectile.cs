@@ -1,15 +1,16 @@
 ﻿using R3;
 using UnityEngine;
 using Utils.LayerMask;
-using Views.Impl.Ai;
 
 namespace Views.Impl.Projectile
 {
     public class OneTouchProjectile : AProjectileView
     {
-        private readonly ReactiveCommand<AAiView> _aiHitReactiveCommand = new ();
+        [SerializeField] protected Rigidbody projectileRigidbody;
         
-        public Observable<AAiView> OnAiHit => _aiHitReactiveCommand;
+        private readonly ReactiveCommand<Unit> _projectileTouchedTarget = new ();
+        
+        public Observable<Unit> ProjectileTouchedTarget => _projectileTouchedTarget;
         
         private void OnTriggerEnter(Collider other)
         {
@@ -17,10 +18,19 @@ namespace Views.Impl.Projectile
             
             if (LayerMasks.Enemy == (LayerMasks.Enemy | (1 << hitGameObject.layer)))
             {
-                var aiView = hitGameObject.GetComponent<AAiView>();
+                var ai = hitGameObject.GetComponent<IDamagable>();
                 
-                _aiHitReactiveCommand.Execute(aiView);
+                ai?.ReceiveDamage(Damage);
+                
+                _projectileTouchedTarget.Execute(default);
             }
+        }
+        
+        public override void ResetProjectile()
+        {
+            projectileRigidbody.velocity = Vector3.zero;
+            
+            base.ResetProjectile();
         }
     }
 }

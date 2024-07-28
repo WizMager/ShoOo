@@ -13,10 +13,7 @@ namespace Utils.Weapons
         [field:SerializeField] public EWeaponType WeaponType { get; private set; }
         [field: SerializeField] public float FireRate { get; private set; } = 2;
 
-        public virtual void Initialize()
-        {
-        }
-        
+        public abstract void Initialize();
         public abstract void Shoot();
     }
 }

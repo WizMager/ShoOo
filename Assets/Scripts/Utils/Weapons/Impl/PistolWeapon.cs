@@ -1,4 +1,5 @@
-﻿using Utils.ObjectPool;
+﻿using R3;
+using Utils.ObjectPool;
 using Views.Impl.Projectile.Impl;
 
 namespace Utils.Weapons.Impl
@@ -6,6 +7,8 @@ namespace Utils.Weapons.Impl
     public class PistolWeapon : AWeapon
     {
         private ProjectilePool<PistolBullet> _weaponProjectilePool;
+
+        private readonly CompositeDisposable _disposable = new ();
 
         public override void Initialize()
         {
@@ -19,8 +22,15 @@ namespace Utils.Weapons.Impl
             projectile.transform.position = projectileShootPoint.position;
             projectile.transform.rotation = projectileShootPoint.rotation;
             
-            projectile.ActivateProjectile();
+            projectile.ActivateProjectile(damage);
             projectile.Fly(projectileSpeed);
+
+            projectile.ProjectileTouchedTarget.Subscribe(_ => OnProjectileTouchedTarget(projectile)).AddTo(_disposable);
+        }
+
+        private void OnProjectileTouchedTarget(PistolBullet pistolBullet)
+        {
+            _weaponProjectilePool.ReleaseProjectile(pistolBullet);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Views.Impl.Projectile.Interfaces
 {
-    public interface IFlyable
+    public interface IForwardDirectionFlyable
     {
         void Fly(float speed);
     }

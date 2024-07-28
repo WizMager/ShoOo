@@ -26,17 +26,20 @@ namespace Utils.Weapons
         {
             foreach (var weapon in _weaponList.Where(weapon => weapon.WeaponType == weaponType))
             {
+                weapon.gameObject.SetActive(true);
+                
                 return weapon;
             }
 
             throw new Exception($"[{typeof(WeaponPool)}]; There is no weapon with type {weaponType} in list.");
         }
 
-        public void ReleaseWeapon(AWeapon aWeapon)
+        public void ReleaseWeapon(AWeapon weapon)
         {
-            aWeapon.transform.SetParent(_poolContainerTransform);
+            weapon.transform.SetParent(_poolContainerTransform);
+            weapon.gameObject.SetActive(false);
             
-            _weaponList.Add(aWeapon);
+            _weaponList.Add(weapon);
         }
 
         private async UniTaskVoid InstantiateProjectilesAtStart(IWeaponBase weaponBase)
