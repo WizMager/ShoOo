@@ -28,6 +28,7 @@ namespace Views.Impl.Projectile.Impl.BaseVariants
         public override void ResetProjectile()
         {
             projectileRigidbody.velocity = Vector3.zero;
+            projectileRigidbody.angularVelocity = Vector3.zero;
             
             base.ResetProjectile();
         }
