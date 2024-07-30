@@ -16,7 +16,7 @@ namespace Utils.Weapons.Impl
         
         public override void Initialize()
         {
-            _weaponProjectilePool = new ProjectilePool<ShotgunBullet>(projectilePrefab, bulletsInShot * 5);
+            _weaponProjectilePool = new ProjectilePool<ShotgunBullet>(projectilePrefab, bulletsInShot);
         }
 
         public override void Shoot()

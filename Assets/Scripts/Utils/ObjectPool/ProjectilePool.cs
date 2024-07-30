@@ -11,50 +11,50 @@ namespace Utils.ObjectPool
 {
     public class ProjectilePool<T> where T : AProjectileView
     {
+        private const int PROJECTILES_MULTIPLIER = 5;
+        
         private readonly Stack<T> _projectileStack = new ();
         private readonly AssetReference _projectilePrefab;
         private readonly Transform _poolContainerTransform;
         
-        public bool IsReady => _projectileStack.Count > 0;
-        
-        public ProjectilePool(AssetReference projectilePrefab, int size = 5)
+        public ProjectilePool(AssetReference projectilePrefab, int bulletsInShot = 1)
         {
             _projectilePrefab = projectilePrefab;
             
             var poolContainer = new GameObject($"ProjectilePool{nameof(_projectilePrefab.SubObjectName)}Container");
             _poolContainerTransform = poolContainer.transform;
             
-            InstantiateProjectilesAtStart(size).Forget();
+            InstantiateProjectilesAtStart(bulletsInShot * PROJECTILES_MULTIPLIER).Forget();
         }
         
         public T GetProjectile()
         {
-            return _projectileStack.Count == 0 ? InstantiateProjectile() : _projectileStack.Pop();
+            return  _projectileStack.Count == 0 ? InstantiateProjectile() : _projectileStack.Pop();
         }
 
-        public void ReleaseProjectile(T aProjectile)
+        public void ReleaseProjectile(T projectile)
         {
-            aProjectile.ResetProjectile();
+            projectile.ResetProjectile();
             
-            aProjectile.transform.SetParent(_poolContainerTransform);
+            projectile.transform.SetParent(_poolContainerTransform);
             
-            _projectileStack.Push(aProjectile);
+            _projectileStack.Push(projectile);
         }
 
         private async UniTaskVoid InstantiateProjectilesAtStart(int size)
         {
-            var asyncOperationAi = new List<AsyncOperationHandle<GameObject>>();
+            var asyncOperations = new List<AsyncOperationHandle<GameObject>>();
             
             for (var i = 0; i < size; i++)
             {
                 var instantiateAsync = Addressables.InstantiateAsync(_projectilePrefab);
                 
-                asyncOperationAi.Add(instantiateAsync);
+                asyncOperations.Add(instantiateAsync);
             }
             
-            await UniTask.WhenAll(asyncOperationAi.Select(o => o.Task.AsUniTask()).ToArray());
+            await UniTask.WhenAll(asyncOperations.Select(o => o.Task.AsUniTask()).ToArray());
             
-            foreach (var asyncOperationHandle in asyncOperationAi)
+            foreach (var asyncOperationHandle in asyncOperations)
             {
                 var hasAAiViewComponent = asyncOperationHandle.Result.TryGetComponent(out T projectileView);
                 
@@ -64,7 +64,6 @@ namespace Utils.ObjectPool
                 }
                 
                 projectileView.transform.SetParent(_poolContainerTransform);
-                
                 projectileView.ResetProjectile();
                 
                 _projectileStack.Push(projectileView);
