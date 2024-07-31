@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Views.Impl.Ai;
+using Object = UnityEngine.Object;
 
 namespace Utils.ObjectPool
 {
     public class AiPool<T> where T : AAiView
     {
         private readonly Stack<T> _aiStack = new ();
-        private readonly AssetReference _aiPrefab;
+        private readonly GameObject _aiPrefab;
         private readonly Transform _poolContainerTransform;
         
         public bool IsReady => _aiStack.Count > 0;
 
-        public AiPool(AssetReference aiPrefab, int size = 5)
+        public AiPool(GameObject aiPrefab, int size = 5)
         {
             var poolContainer = new GameObject($"AiPool{typeof(T).Name}Container");
             _poolContainerTransform = poolContainer.transform;
             
             _aiPrefab = aiPrefab;
-            InstantiateAiAtStart(size).Forget();
+            InstantiateAiAtStart(size);
         }
         
         public T GetAi()
@@ -40,30 +36,13 @@ namespace Utils.ObjectPool
             _aiStack.Push(ai);
         }
 
-        private async UniTaskVoid InstantiateAiAtStart(int size)
+        private void InstantiateAiAtStart(int size)
         {
-            var asyncOperationAi = new List<AsyncOperationHandle<GameObject>>();
-            
             for (var i = 0; i < size; i++)
             {
-                var instantiateAsync = Addressables.InstantiateAsync(_aiPrefab);
-                
-                asyncOperationAi.Add(instantiateAsync);
-            }
-            
-            await UniTask.WhenAll(asyncOperationAi.Select(o => o.Task.AsUniTask()).ToArray());
-            
-            foreach (var asyncOperationHandle in asyncOperationAi)
-            {
-                var hasAAiViewComponent = asyncOperationHandle.Result.TryGetComponent(out T aiView);
-                
-                if (!hasAAiViewComponent)
-                {
-                    throw new Exception($"[{nameof(AiPool<T>)}]: There is no {typeof(T).Name} component on {asyncOperationHandle.Result.name}");
-                }
+                var aiView = InstantiateAi();
                 
                 aiView.transform.SetParent(_poolContainerTransform);
-                
                 aiView.ResetAi();
                 
                 _aiStack.Push(aiView);
@@ -72,9 +51,9 @@ namespace Utils.ObjectPool
         
         private T InstantiateAi()
         {
-            var ai = Addressables.InstantiateAsync(_aiPrefab);
+            var ai = Object.Instantiate(_aiPrefab);
             
-            return ai.Result.GetComponent<T>();
+            return ai.GetComponent<T>();
         }
     }
 }

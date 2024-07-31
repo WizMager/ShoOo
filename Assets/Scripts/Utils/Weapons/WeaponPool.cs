@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Configs.Weapons;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Utils.Weapons
 {
@@ -19,7 +16,7 @@ namespace Utils.Weapons
             var poolContainer = new GameObject("WeaponPoolContainer");
             _poolContainerTransform = poolContainer.transform;
             
-            InstantiateProjectilesAtStart(weaponBase).Forget();
+            InstantiateProjectilesAtStart(weaponBase);
         }
         
         public AWeapon GetWeapon(EWeaponType weaponType)
@@ -42,35 +39,26 @@ namespace Utils.Weapons
             _weaponList.Add(weapon);
         }
 
-        private async UniTaskVoid InstantiateProjectilesAtStart(IWeaponBase weaponBase)
+        private void InstantiateProjectilesAtStart(IWeaponBase weaponBase)
         {
-            var asyncOperations = new List<AsyncOperationHandle<GameObject>>();
-
             foreach (var weapon in weaponBase.GetAllWeapons())
             {
-                var instantiateAsync = Addressables.InstantiateAsync(weapon);
-                var instantiateSecondAsync = Addressables.InstantiateAsync(weapon);
+                var weaponView = weapon.GetComponent<AWeapon>();
+                weaponView.Initialize();
+                weaponView.transform.SetParent(_poolContainerTransform);
+                weaponView.gameObject.SetActive(false);
                 
-                asyncOperations.Add(instantiateAsync);
-                asyncOperations.Add(instantiateSecondAsync);
+                _weaponList.Add(weaponView);
             }
             
-            await UniTask.WhenAll(asyncOperations.Select(o => o.Task.AsUniTask()).ToArray());
-            
-            foreach (var asyncOperationHandle in asyncOperations)
+            foreach (var weapon in weaponBase.GetAllWeapons())
             {
-                var hasWeaponComponent = asyncOperationHandle.Result.TryGetComponent(out AWeapon weapon);
+                var weaponView = weapon.GetComponent<AWeapon>();
+                weaponView.Initialize();
+                weaponView.transform.SetParent(_poolContainerTransform);
+                weaponView.gameObject.SetActive(false);
                 
-                if (!hasWeaponComponent)
-                {
-                    throw new Exception($"[{nameof(WeaponPool)}]: There is no {nameof(AWeapon)} component on {asyncOperationHandle.Result.name}");
-                }
-                
-                weapon.Initialize();
-                weapon.transform.SetParent(_poolContainerTransform);
-                weapon.gameObject.SetActive(false);
-                
-                _weaponList.Add(weapon);
+                _weaponList.Add(weaponView);
             }
         }
     }

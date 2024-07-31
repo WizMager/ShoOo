@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using UnityEngine.AddressableAssets;
+using UnityEngine;
 
 namespace Configs.Weapons
 {
     public interface IWeaponBase
     {
-        List<AssetReference> GetAllWeapons();
+        List<GameObject> GetAllWeapons();
     }
 }

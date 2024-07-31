@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Threading;
 using ModestTree;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject.Internal;
 
 namespace Zenject
@@ -76,18 +74,25 @@ namespace Zenject
 
         public static GameObject TryGetPrefab()
         {
-            var assetLoadHandle = Addressables.LoadAssetAsync<GameObject>("ProjectContext");
+            var prefabs = Resources.LoadAll(ProjectContextResourcePath, typeof(GameObject));
 
-            assetLoadHandle.WaitForCompletion();
+            if (prefabs.Length > 0)
+            {
+                Assert.That(prefabs.Length == 1,
+                    "Found multiple project context prefabs at resource path '{0}'", ProjectContextResourcePath);
+                return (GameObject)prefabs[0];
+            }
 
-            if (assetLoadHandle.Status != AsyncOperationStatus.Succeeded)
-                return null;
+            prefabs = Resources.LoadAll(ProjectContextResourcePathOld, typeof(GameObject));
 
-            Debug.Log("ProjectContext game object is loaded.");
-            
-            var prefab = assetLoadHandle.Result;
-            
-            return prefab;
+            if (prefabs.Length > 0)
+            {
+                Assert.That(prefabs.Length == 1,
+                    "Found multiple project context prefabs at resource path '{0}'", ProjectContextResourcePathOld);
+                return (GameObject)prefabs[0];
+            }
+
+            return null;
         }
 
         static void InstantiateAndInitialize()
