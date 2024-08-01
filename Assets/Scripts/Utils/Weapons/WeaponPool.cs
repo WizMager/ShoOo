@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Configs.Weapons;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Utils.Weapons
 {
@@ -43,22 +44,24 @@ namespace Utils.Weapons
         {
             foreach (var weapon in weaponBase.GetAllWeapons())
             {
-                var weaponView = weapon.GetComponent<AWeapon>();
-                weaponView.Initialize();
-                weaponView.transform.SetParent(_poolContainerTransform);
-                weaponView.gameObject.SetActive(false);
+                var instantiatedFirstCopyWeapon = Object.Instantiate(weapon);
+                var instantiatedSecondCopyWeapon = Object.Instantiate(weapon);
+                var firstWeapon = instantiatedFirstCopyWeapon.GetComponent<AWeapon>();
+                var secondWeapon = instantiatedSecondCopyWeapon.GetComponent<AWeapon>();
                 
-                _weaponList.Add(weaponView);
+                SetupWeapon(firstWeapon);
+                SetupWeapon(secondWeapon);
             }
             
-            foreach (var weapon in weaponBase.GetAllWeapons())
+            return;
+
+            void SetupWeapon(AWeapon weapon)
             {
-                var weaponView = weapon.GetComponent<AWeapon>();
-                weaponView.Initialize();
-                weaponView.transform.SetParent(_poolContainerTransform);
-                weaponView.gameObject.SetActive(false);
+                weapon.Initialize();
+                weapon.transform.SetParent(_poolContainerTransform);
+                weapon.gameObject.SetActive(false);
                 
-                _weaponList.Add(weaponView);
+                _weaponList.Add(weapon);
             }
         }
     }
