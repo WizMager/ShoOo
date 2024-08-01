@@ -213,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4648648608017699761
 Transform:
   m_ObjectHideFlags: 0
@@ -244,11 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf084c80535453ab3d497c3e3287db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab:
-    m_AssetGUID: 8cd09b0488b48874194ee3c29e92ebfb
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  projectilePrefab: {fileID: 9217393015074817917, guid: 8cd09b0488b48874194ee3c29e92ebfb,
+    type: 3}
   projectileShootPoint: {fileID: 3816774097948499354}
   damage: 2
   projectileSpeed: 400
