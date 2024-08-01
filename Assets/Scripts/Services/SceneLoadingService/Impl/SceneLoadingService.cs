@@ -18,11 +18,11 @@ namespace Services.SceneLoadingService.Impl
         
         public async UniTask LoadFromSplash(Action onSceneLoaded = null)
         {
-            var levelSceneOperation = SceneManager.LoadSceneAsync("Level");
+            var levelSceneOperation = SceneManager.LoadSceneAsync(_sceneReferenceBase.ScenesList[0].name);
             
             await levelSceneOperation.ToUniTask();
             
-            var gameSceneOperation = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
+            var gameSceneOperation = SceneManager.LoadSceneAsync(_sceneReferenceBase.MainScene.name, LoadSceneMode.Additive);
             
             await gameSceneOperation.ToUniTask();
             
