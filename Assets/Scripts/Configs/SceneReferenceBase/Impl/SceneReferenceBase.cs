@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
 
 namespace Configs.SceneReferenceBase.Impl
 {
     [CreateAssetMenu(menuName = "Configs/" + nameof(SceneReferenceBase), fileName = nameof(SceneReferenceBase))]
     public class SceneReferenceBase : ScriptableObject, ISceneReferenceBase
     {
-        [SerializeField] private Scene mainScene;
-        [SerializeField] private List<Scene> scenesList;
+        [SerializeField] private AssetReference mainScene;
+        [SerializeField] private List<AssetReference> scenesList;
 
-        public List<Scene> ScenesList => scenesList;
+        public List<AssetReference> ScenesList => scenesList;
 
-        public Scene MainScene => mainScene;
+        public AssetReference MainScene => mainScene;
     }
 }

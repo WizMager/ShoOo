@@ -1,10 +1,10 @@
 ﻿using Services.EnemySpawnService;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Configs.PrefabBase
 {
     public interface IPrefabBase
     {
-        GameObject GetAiPrefabWithType(EAiType aiType);
+        AssetReference GetAiPrefabWithType(EAiType aiType);
     }
 }

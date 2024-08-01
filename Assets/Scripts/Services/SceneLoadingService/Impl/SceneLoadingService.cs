@@ -1,6 +1,8 @@
 ﻿using System;
 using Configs.SceneReferenceBase;
 using Cysharp.Threading.Tasks;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Services.SceneLoadingService.Impl
@@ -9,7 +11,7 @@ namespace Services.SceneLoadingService.Impl
     {
         private readonly ISceneReferenceBase _sceneReferenceBase;
 
-        private string _loadedScene;
+        private SceneInstance _loadedScene;
 
         public SceneLoadingService(ISceneReferenceBase sceneReferenceBase)
         {
@@ -18,31 +20,33 @@ namespace Services.SceneLoadingService.Impl
         
         public async UniTask LoadFromSplash(Action onSceneLoaded = null)
         {
-            var levelSceneOperation = SceneManager.LoadSceneAsync(_sceneReferenceBase.ScenesList[0].name);
+            var levelScene = Addressables.LoadSceneAsync(_sceneReferenceBase.ScenesList[0]);
             
-            await levelSceneOperation.ToUniTask();
+            await levelScene.Task.AsUniTask();
             
-            var gameSceneOperation = SceneManager.LoadSceneAsync(_sceneReferenceBase.MainScene.name, LoadSceneMode.Additive);
+            var gameScene = Addressables.LoadSceneAsync(_sceneReferenceBase.MainScene, LoadSceneMode.Additive);
             
-            await gameSceneOperation.ToUniTask();
+            await gameScene.Task.AsUniTask();
+
+            var resulScene = levelScene.Result;
+            _loadedScene = resulScene;
             
-            _loadedScene = _sceneReferenceBase.ScenesList[0].name;
-            
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(_sceneReferenceBase.ScenesList[0].name));
+            SceneManager.SetActiveScene(resulScene.Scene);
             
             onSceneLoaded?.Invoke();
         }
         
-        public async UniTask LoadScene(string scene, Action onSceneLoaded = null)
+        public async UniTask LoadScene(AssetReference scene, Action onSceneLoaded = null)
         {
-            var oldSceneOperation = SceneManager.UnloadSceneAsync(_loadedScene);
-            var newSceneOperation = SceneManager.LoadSceneAsync(scene);
+            var oldScene = Addressables.UnloadSceneAsync(_loadedScene);
+            var newScene = Addressables.LoadSceneAsync(scene);
             
-            await UniTask.WhenAll(oldSceneOperation.ToUniTask(), newSceneOperation.ToUniTask());
+            await UniTask.WhenAll(oldScene.Task.AsUniTask(), newScene.Task.AsUniTask());
             
-            _loadedScene = scene;
+            var resulScene = oldScene.Result;
+            _loadedScene = resulScene;
             
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene));
+            SceneManager.SetActiveScene(resulScene.Scene);
 
             onSceneLoaded?.Invoke();
         }

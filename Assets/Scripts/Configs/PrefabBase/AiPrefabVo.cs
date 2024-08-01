@@ -1,6 +1,6 @@
 ﻿using System;
 using Services.EnemySpawnService;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Configs.PrefabBase
 {
@@ -8,6 +8,6 @@ namespace Configs.PrefabBase
     public class AiPrefabVo
     {
         public EAiType aiType;
-        public GameObject prefab;
+        public AssetReference prefab;
     }
 }

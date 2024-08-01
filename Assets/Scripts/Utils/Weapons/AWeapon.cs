@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Utils.Weapons
 {
     public abstract class AWeapon : MonoBehaviour, IShootable
     {
-        [SerializeField] protected GameObject projectilePrefab;
+        [SerializeField] protected AssetReference projectilePrefab;
         [SerializeField] protected Transform projectileShootPoint;
         [SerializeField] protected int damage;
         [SerializeField] protected float projectileSpeed;

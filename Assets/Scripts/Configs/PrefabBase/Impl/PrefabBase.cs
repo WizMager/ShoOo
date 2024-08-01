@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Services.EnemySpawnService;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Configs.PrefabBase.Impl
 {
@@ -10,7 +11,7 @@ namespace Configs.PrefabBase.Impl
     {
         [SerializeField] private List<AiPrefabVo> aiPrefabs;
         
-        public GameObject GetAiPrefabWithType(EAiType aiType)
+        public AssetReference GetAiPrefabWithType(EAiType aiType)
         {
             foreach (var aiPrefab in aiPrefabs)
             {

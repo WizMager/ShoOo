@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
 
 namespace Configs.SceneReferenceBase
 {
     public interface ISceneReferenceBase
     {
-        Scene MainScene { get; }
-        List<Scene> ScenesList { get; }
+        AssetReference MainScene { get; }
+        List<AssetReference> ScenesList { get; }
     }
 }
