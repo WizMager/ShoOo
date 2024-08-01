@@ -13,12 +13,14 @@ namespace Utils.ObjectPool
     {
         private const int PROJECTILES_MULTIPLIER = 5;
         
-        private readonly Stack<T> _projectileStack = new ();
+        private readonly Queue<T> _projectileQueue = new ();
         private readonly AssetReference _projectilePrefab;
         private readonly Transform _poolContainerTransform;
+        private readonly int _bulletsInShot;
         
         public ProjectilePool(AssetReference projectilePrefab, int bulletsInShot = 1)
         {
+            _bulletsInShot = bulletsInShot;
             _projectilePrefab = projectilePrefab;
             
             var poolContainer = new GameObject($"ProjectilePool{nameof(_projectilePrefab.SubObjectName)}Container");
@@ -29,7 +31,23 @@ namespace Utils.ObjectPool
         
         public T GetProjectile()
         {
-            return  _projectileStack.Count == 0 ? InstantiateProjectile() : _projectileStack.Pop();
+            if (_projectileQueue.Count <= _bulletsInShot * PROJECTILES_MULTIPLIER)
+            {
+                for (var i = 0; i < _bulletsInShot; i++)
+                {
+                    InstantiateProjectile().Forget();
+                }
+            }
+
+            if (_projectileQueue.Count > 0)
+            {
+                return _projectileQueue.Dequeue();
+            }
+            else
+            {
+                Debug.LogError($"[{nameof(ProjectilePool<T>)}]There is no projectile in pool");
+                return null;
+            }
         }
 
         public void ReleaseProjectile(T projectile)
@@ -38,7 +56,7 @@ namespace Utils.ObjectPool
             
             projectile.transform.SetParent(_poolContainerTransform);
             
-            _projectileStack.Push(projectile);
+            _projectileQueue.Enqueue(projectile);
         }
 
         private async UniTaskVoid InstantiateProjectilesAtStart(int size)
@@ -66,15 +84,19 @@ namespace Utils.ObjectPool
                 projectileView.transform.SetParent(_poolContainerTransform);
                 projectileView.ResetProjectile();
                 
-                _projectileStack.Push(projectileView);
+                _projectileQueue.Enqueue(projectileView);
             }
         }
         
-        private T InstantiateProjectile()
+        private async UniTaskVoid InstantiateProjectile()
         {
-            var projectile = Addressables.InstantiateAsync(_projectilePrefab);
+            var projectileOperation = Addressables.InstantiateAsync(_projectilePrefab);
+
+            await UniTask.WhenAll(projectileOperation.ToUniTask());
+
+            var projectileView = projectileOperation.Result.GetComponent<T>();
             
-            return projectile.Result.GetComponent<T>();
+            _projectileQueue.Enqueue(projectileView);
         }
     }
 }
