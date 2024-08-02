@@ -13,50 +13,46 @@ namespace Utils.ObjectPool
     {
         private const int PROJECTILES_MULTIPLIER = 5;
         
-        private readonly Queue<T> _projectileQueue = new ();
+        private readonly Queue<T> _projectileViews = new ();
         private readonly AssetReference _projectilePrefab;
         private readonly Transform _poolContainerTransform;
-        private readonly int _bulletsInShot;
         
         public ProjectilePool(AssetReference projectilePrefab, int bulletsInShot = 1)
         {
-            _bulletsInShot = bulletsInShot;
             _projectilePrefab = projectilePrefab;
             
             var poolContainer = new GameObject($"ProjectilePool{nameof(_projectilePrefab.SubObjectName)}Container");
             _poolContainerTransform = poolContainer.transform;
             
-            InstantiateProjectilesAtStart(bulletsInShot * PROJECTILES_MULTIPLIER).Forget();
+            InstantiateProjectilesAtStart(1).Forget();
         }
         
         public T GetProjectile()
         {
-            if (_projectileQueue.Count <= _bulletsInShot * PROJECTILES_MULTIPLIER)
+            if (_projectileViews.Count > 0)
             {
-                for (var i = 0; i < _bulletsInShot; i++)
-                {
-                    InstantiateProjectile().Forget();
-                }
-            }
-
-            if (_projectileQueue.Count > 0)
-            {
-                return _projectileQueue.Dequeue();
+                var projectile = _projectileViews.Dequeue();
+                Debug.Log($"Get From Queu {projectile.GetHashCode()}");
+                return projectile;
             }
             else
             {
-                Debug.LogError($"[{nameof(ProjectilePool<T>)}]There is no projectile in pool");
-                return null;
+                var proj = InstantiateProjectile();
+                Debug.Log($"Get from inst {proj.GetHashCode()}");
+                return proj;
             }
+            
+            return _projectileViews.Count > 0 ? _projectileViews.Dequeue() : InstantiateProjectile();
         }
 
         public void ReleaseProjectile(T projectile)
         {
+            Debug.Log($"Release {projectile.GetHashCode()}");
             projectile.ResetProjectile();
             
             projectile.transform.SetParent(_poolContainerTransform);
             
-            _projectileQueue.Enqueue(projectile);
+            _projectileViews.Enqueue(projectile);
         }
 
         private async UniTaskVoid InstantiateProjectilesAtStart(int size)
@@ -84,19 +80,15 @@ namespace Utils.ObjectPool
                 projectileView.transform.SetParent(_poolContainerTransform);
                 projectileView.ResetProjectile();
                 
-                _projectileQueue.Enqueue(projectileView);
+                _projectileViews.Enqueue(projectileView);
             }
         }
         
-        private async UniTaskVoid InstantiateProjectile()
+        private T InstantiateProjectile()
         {
             var projectileOperation = Addressables.InstantiateAsync(_projectilePrefab);
-
-            await UniTask.WhenAll(projectileOperation.ToUniTask());
-
-            var projectileView = projectileOperation.Result.GetComponent<T>();
             
-            _projectileQueue.Enqueue(projectileView);
+            return projectileOperation.Result.GetComponent<T>();
         }
     }
 }

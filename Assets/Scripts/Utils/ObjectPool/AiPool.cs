@@ -11,11 +11,11 @@ namespace Utils.ObjectPool
 {
     public class AiPool<T> where T : AAiView
     {
-        private readonly Stack<T> _aiStack = new ();
+        private readonly Queue<T> _aiViews = new ();
         private readonly AssetReference _aiPrefab;
         private readonly Transform _poolContainerTransform;
         
-        public bool IsReady => _aiStack.Count > 0;
+        public bool IsReady => _aiViews.Count > 0;
 
         public AiPool(AssetReference aiPrefab, int size = 5)
         {
@@ -28,7 +28,7 @@ namespace Utils.ObjectPool
         
         public T GetAi()
         {
-            return _aiStack.Count == 0 ? InstantiateAi() : _aiStack.Pop();
+            return _aiViews.Count > 0 ? _aiViews.Dequeue() : InstantiateAi();
         }
 
         public void ReleaseAi(T ai)
@@ -37,7 +37,7 @@ namespace Utils.ObjectPool
             
             ai.transform.SetParent(_poolContainerTransform);
             
-            _aiStack.Push(ai);
+            _aiViews.Enqueue(ai);
         }
 
         private async UniTaskVoid InstantiateAiAtStart(int size)
@@ -66,15 +66,15 @@ namespace Utils.ObjectPool
                 
                 aiView.ResetAi();
                 
-                _aiStack.Push(aiView);
+                _aiViews.Enqueue(aiView);
             }
         }
         
         private T InstantiateAi()
         {
-            var ai = Addressables.InstantiateAsync(_aiPrefab);
-            
-            return ai.Result.GetComponent<T>();
+            var instantiateAsyncOperation = Addressables.InstantiateAsync(_aiPrefab);
+
+            return instantiateAsyncOperation.Result.GetComponent<T>();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Views.Modules.Impl
         {
             base.Initialize(view, disposable);
             
-            Observable.Timer(TimeSpan.FromSeconds(0.2)).Subscribe(_ => ChangeWeapon(EWeaponType.Shotgun));//TODO: remove timer, initialize pools another way
+            Observable.Timer(TimeSpan.FromSeconds(0.2)).Subscribe(_ => ChangeWeapon(EWeaponType.Pistol));//TODO: remove timer, initialize pools another way
         }
 
         public void Shoot()

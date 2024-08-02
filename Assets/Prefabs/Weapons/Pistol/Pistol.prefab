@@ -253,4 +253,4 @@ MonoBehaviour:
   damage: 2
   projectileSpeed: 400
   <WeaponType>k__BackingField: 1
-  <FireRate>k__BackingField: 2
+  <FireRate>k__BackingField: 0.5
