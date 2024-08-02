@@ -24,30 +24,16 @@ namespace Utils.ObjectPool
             var poolContainer = new GameObject($"ProjectilePool{nameof(_projectilePrefab.SubObjectName)}Container");
             _poolContainerTransform = poolContainer.transform;
             
-            InstantiateProjectilesAtStart(1).Forget();
+            InstantiateProjectilesAtStart(bulletsInShot * PROJECTILES_MULTIPLIER).Forget();
         }
         
         public T GetProjectile()
         {
-            if (_projectileViews.Count > 0)
-            {
-                var projectile = _projectileViews.Dequeue();
-                Debug.Log($"Get From Queu {projectile.GetHashCode()}");
-                return projectile;
-            }
-            else
-            {
-                var proj = InstantiateProjectile();
-                Debug.Log($"Get from inst {proj.GetHashCode()}");
-                return proj;
-            }
-            
             return _projectileViews.Count > 0 ? _projectileViews.Dequeue() : InstantiateProjectile();
         }
 
         public void ReleaseProjectile(T projectile)
         {
-            Debug.Log($"Release {projectile.GetHashCode()}");
             projectile.ResetProjectile();
             
             projectile.transform.SetParent(_poolContainerTransform);
