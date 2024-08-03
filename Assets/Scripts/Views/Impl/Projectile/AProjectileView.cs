@@ -46,7 +46,6 @@ namespace Views.Impl.Projectile
             }
             else
             {
-                _disposable.Dispose();
                 _disposable.Clear();
                 
                 ExistProjectileEndedCommand.Execute(default);
