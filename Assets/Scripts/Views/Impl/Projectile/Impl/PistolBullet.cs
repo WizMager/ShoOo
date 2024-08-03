@@ -4,11 +4,11 @@ using Views.Impl.Projectile.Interfaces;
 
 namespace Views.Impl.Projectile.Impl
 {
-    public class PistolBullet : OneTouchProjectile, IForwardDirectionFlyable
+    public class PistolBullet : OneTouchProjectile, IFlyable
     {
-        public void Fly(float speed)
+        public void Fly(float speed, Vector3 direction)
         {
-            projectileRigidbody.AddForce(transform.forward * speed, ForceMode.Acceleration);
+            projectileRigidbody.AddForce(direction * speed, ForceMode.Acceleration);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Utils.Weapons.Impl
             projectile.transform.rotation = projectileShootPoint.rotation;
             
             projectile.ActivateProjectile(damage);
-            projectile.Fly(projectileSpeed);
+            projectile.Fly(projectileSpeed, transform. forward);
 
             projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
         }
