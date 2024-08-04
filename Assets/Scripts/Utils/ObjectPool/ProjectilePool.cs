@@ -27,20 +27,30 @@ namespace Utils.ObjectPool
             InstantiateProjectilesAtStart(bulletsInShot * PROJECTILES_MULTIPLIER).Forget();
         }
         
-        public T GetProjectile()
+        public (bool isNewProjectile, T projectileView) GetProjectile()
         {
-            return _projectileViews.Count > 0 ? _projectileViews.Dequeue() : InstantiateProjectile();
+            if (_projectileViews.Count <= 0) 
+                return (true, InstantiateProjectile());
+            
+            var projectile = _projectileViews.Dequeue();
+            
+            projectile.transform.SetParent(null);
+                
+            return (false, projectile);
         }
 
         public void ReleaseProjectile(T projectile)
         {
-            projectile.ResetProjectile();
-            
             projectile.transform.SetParent(_poolContainerTransform);
             
             _projectileViews.Enqueue(projectile);
         }
 
+        public T[] GetAllAvailableProjectiles()
+        {
+            return _projectileViews.ToArray();
+        }
+        
         private async UniTaskVoid InstantiateProjectilesAtStart(int size)
         {
             var asyncOperations = new List<AsyncOperationHandle<GameObject>>();
