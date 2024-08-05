@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,20 +12,21 @@ namespace Utils.ObjectPool
 {
     public class ProjectilePool<T> where T : AProjectileView
     {
-        private const int PROJECTILES_MULTIPLIER = 5;
-        
         private readonly Queue<T> _projectileViews = new ();
         private readonly AssetReference _projectilePrefab;
         private readonly Transform _poolContainerTransform;
+        private readonly ReactiveCommand<T[]> _projectileInstantiatedCommand = new ();
+
+        public Observable<T[]> ProjectileInstantiated => _projectileInstantiatedCommand;
         
-        public ProjectilePool(AssetReference projectilePrefab, int bulletsInShot = 1)
+        public ProjectilePool(AssetReference projectilePrefab, int magazineSize, int bulletsInShot = 1)
         {
             _projectilePrefab = projectilePrefab;
             
             var poolContainer = new GameObject($"ProjectilePool{nameof(_projectilePrefab.SubObjectName)}Container");
             _poolContainerTransform = poolContainer.transform;
             
-            InstantiateProjectilesAtStart(bulletsInShot * PROJECTILES_MULTIPLIER).Forget();
+            InstantiateProjectilesAtStart(bulletsInShot * magazineSize).Forget();
         }
         
         public (bool isNewProjectile, T projectileView) GetProjectile()
@@ -78,6 +80,8 @@ namespace Utils.ObjectPool
                 
                 _projectileViews.Enqueue(projectileView);
             }
+
+            _projectileInstantiatedCommand?.Execute(_projectileViews.ToArray());
         }
         
         private T InstantiateProjectile()

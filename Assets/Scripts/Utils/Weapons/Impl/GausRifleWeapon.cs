@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
 using R3;
 using Utils.ObjectPool;
 using Views.Impl.Projectile.Impl;
@@ -13,19 +13,35 @@ namespace Utils.Weapons.Impl
 
         public override void Initialize()
         {
-            _weaponProjectilePool = new ProjectilePool<GausRifleProjectile>(projectilePrefab);
+            _weaponProjectilePool = new ProjectilePool<GausRifleProjectile>(projectilePrefab, MagazineSize);
             
-            Observable.Timer(TimeSpan.FromSeconds(0.2)).Subscribe(_ =>
-            {
-                foreach (var projectile in _weaponProjectilePool.GetAllAvailableProjectiles())
-                {
-                    projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
-                }
-            });//TODO: remove timer, change initialize subscribtion
+            _weaponProjectilePool.ProjectileInstantiated.Subscribe(OnProjectileInstantiated).AddTo(_disposable);
+
+            CurrentProjectilesInMagazine = MagazineSize;
         }
 
+        private void OnProjectileInstantiated(GausRifleProjectile[] projectiles)
+        {
+            foreach (var projectile in projectiles)
+            {
+                projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
+            }
+        }
+        
         public override void Shoot()
         {
+            if (IsReloading)
+                return;
+            
+            if (CurrentProjectilesInMagazine <= 0)
+            {
+                IsReloading = true;
+                Reloading().Forget();
+                return;
+            }
+
+            CurrentProjectilesInMagazine--;
+            
             var (isNewProjectile, projectileView) = _weaponProjectilePool.GetProjectile();
             
             if (isNewProjectile)
@@ -36,10 +52,18 @@ namespace Utils.Weapons.Impl
             projectileView.transform.position = projectileShootPoint.position;
             projectileView.transform.rotation = projectileShootPoint.rotation;
             
-            projectileView.ActivateProjectile(damage);
-            projectileView.Fly(projectileSpeed, projectileShootPoint.forward);
+            projectileView.ActivateProjectile(Damage);
+            projectileView.Fly(ProjectileSpeed, projectileShootPoint.forward);
         }
 
+        //TODO: rework this crutch
+        private async UniTaskVoid Reloading()
+        {
+            await UniTask.WaitForSeconds(ReloadTime);
+            IsReloading = false;
+            CurrentProjectilesInMagazine = MagazineSize;
+        }
+        
         private void OnExistProjectileEnded(GausRifleProjectile gausRifleProjectile)
         {
             _weaponProjectilePool.ReleaseProjectile(gausRifleProjectile);

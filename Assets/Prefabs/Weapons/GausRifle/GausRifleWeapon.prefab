@@ -250,7 +250,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   projectileShootPoint: {fileID: 3894047809215233163}
-  damage: 10
-  projectileSpeed: 2000
+  <Damage>k__BackingField: 10
+  <ProjectileSpeed>k__BackingField: 2000
   <WeaponType>k__BackingField: 3
-  <FireRate>k__BackingField: 0.3
+  <FireRate>k__BackingField: 1
+  <MagazineSize>k__BackingField: 7
+  <ReloadTime>k__BackingField: 3

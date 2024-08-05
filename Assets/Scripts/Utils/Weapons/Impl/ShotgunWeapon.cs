@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
 using Utils.ObjectPool;
@@ -18,19 +18,36 @@ namespace Utils.Weapons.Impl
         
         public override void Initialize()
         {
-            _weaponProjectilePool = new ProjectilePool<ShotgunBullet>(projectilePrefab, bulletsInShot);
+            _weaponProjectilePool = new ProjectilePool<ShotgunBullet>(projectilePrefab, MagazineSize, bulletsInShot);
             
-            Observable.Timer(TimeSpan.FromSeconds(0.2)).Subscribe(_ =>
-            {
-                foreach (var projectile in _weaponProjectilePool.GetAllAvailableProjectiles())
-                {
-                    projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
-                }
-            });//TODO: remove timer, change initialize subscribtion
+            _weaponProjectilePool.ProjectileInstantiated.Subscribe(OnProjectileInstantiated).AddTo(_disposable);
+
+            CurrentProjectilesInMagazine = MagazineSize;
         }
 
+        private void OnProjectileInstantiated(ShotgunBullet[] projectiles)
+        {
+            foreach (var projectile in projectiles)
+            {
+                projectile.ExistProjectileEnded.Subscribe(_ => OnExistProjectileEnded(projectile)).AddTo(_disposable);
+            }
+        }
+        
         public override void Shoot()
         {
+            if (IsReloading)
+                return;
+            
+            if (CurrentProjectilesInMagazine <= 0)
+            {
+                IsReloading = true;
+                Reloading().Forget();
+                
+                return;
+            }
+            
+            CurrentProjectilesInMagazine--;
+            
             for (var i = 0; i < bulletsInShot; i++)
             {
                 var direction = CalculateProjectileDirection();
@@ -66,8 +83,17 @@ namespace Utils.Weapons.Impl
             projectileView.transform.position = projectileShootPoint.position;
             projectileView.transform.rotation = projectileShootPoint.rotation;
             
-            projectileView.ActivateProjectile(damage);
-            projectileView.Fly(projectileSpeed, shotDirection);
+            projectileView.ActivateProjectile(Damage);
+            projectileView.Fly(ProjectileSpeed, shotDirection);
+        }
+        
+        //TODO: rework this crutch
+        private async UniTaskVoid Reloading()
+        {
+            await UniTask.WaitForSeconds(ReloadTime);
+
+            IsReloading = false;
+            CurrentProjectilesInMagazine = MagazineSize;
         }
         
         private void OnExistProjectileEnded(ShotgunBullet shotgunBullet)

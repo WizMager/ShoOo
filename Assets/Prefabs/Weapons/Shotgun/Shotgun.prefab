@@ -84,10 +84,12 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   projectileShootPoint: {fileID: 7200672396278785164}
-  damage: 3
-  projectileSpeed: 500
+  <Damage>k__BackingField: 3
+  <ProjectileSpeed>k__BackingField: 500
   <WeaponType>k__BackingField: 2
   <FireRate>k__BackingField: 2
+  <MagazineSize>k__BackingField: 5
+  <ReloadTime>k__BackingField: 2
   shotSpreadAngle: 20
   bulletsInShot: 5
 --- !u!1 &5249051938122580061
