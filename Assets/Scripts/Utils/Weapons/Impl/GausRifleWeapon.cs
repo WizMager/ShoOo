@@ -66,6 +66,8 @@ namespace Utils.Weapons.Impl
         
         private void OnExistProjectileEnded(GausRifleProjectile gausRifleProjectile)
         {
+            gausRifleProjectile.ResetProjectile();
+            
             _weaponProjectilePool.ReleaseProjectile(gausRifleProjectile);
         }
     }

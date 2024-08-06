@@ -98,6 +98,7 @@ namespace Utils.Weapons.Impl
         
         private void OnExistProjectileEnded(ShotgunBullet shotgunBullet)
         {
+            shotgunBullet.ResetProjectile();
             _weaponProjectilePool.ReleaseProjectile(shotgunBullet);
         }
     }

@@ -47,11 +47,6 @@ namespace Utils.ObjectPool
             
             _projectileViews.Enqueue(projectile);
         }
-
-        public T[] GetAllAvailableProjectiles()
-        {
-            return _projectileViews.ToArray();
-        }
         
         private async UniTaskVoid InstantiateProjectilesAtStart(int size)
         {
