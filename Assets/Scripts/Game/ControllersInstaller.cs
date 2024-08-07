@@ -36,6 +36,9 @@ namespace Game
 			container.BindInterfacesAndSelfTo<MovementController>().AsSingle();	// 0050
 			container.BindInterfacesAndSelfTo<AttackController>().AsSingle();	// 0055
 
+			// 0070
+			container.BindInterfacesAndSelfTo<ReloadingController>().AsSingle();	// 0070
+
 			// 0100
 			container.BindInterfacesAndSelfTo<EnemySpawnController>().AsSingle();	// 0100
 		}	

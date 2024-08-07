@@ -62,6 +62,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9cfa4fa-86aa-477d-a301-2c2f45897203"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""PointerPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24fc2cd0-2ad4-40e1-94de-24e95de5e188"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Main"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -170,6 +190,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_KeyboardAndMouse_Attack = m_KeyboardAndMouse.FindAction("Attack", throwIfNotFound: true);
         m_KeyboardAndMouse_IsAiming = m_KeyboardAndMouse.FindAction("IsAiming", throwIfNotFound: true);
         m_KeyboardAndMouse_PointerPosition = m_KeyboardAndMouse.FindAction("PointerPosition", throwIfNotFound: true);
+        m_KeyboardAndMouse_Reload = m_KeyboardAndMouse.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,6 +256,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyboardAndMouse_Attack;
     private readonly InputAction m_KeyboardAndMouse_IsAiming;
     private readonly InputAction m_KeyboardAndMouse_PointerPosition;
+    private readonly InputAction m_KeyboardAndMouse_Reload;
     public struct KeyboardAndMouseActions
     {
         private @InputActions m_Wrapper;
@@ -243,6 +265,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_KeyboardAndMouse_Attack;
         public InputAction @IsAiming => m_Wrapper.m_KeyboardAndMouse_IsAiming;
         public InputAction @PointerPosition => m_Wrapper.m_KeyboardAndMouse_PointerPosition;
+        public InputAction @Reload => m_Wrapper.m_KeyboardAndMouse_Reload;
         public InputActionMap Get() { return m_Wrapper.m_KeyboardAndMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -264,6 +287,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PointerPosition.started += instance.OnPointerPosition;
             @PointerPosition.performed += instance.OnPointerPosition;
             @PointerPosition.canceled += instance.OnPointerPosition;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IKeyboardAndMouseActions instance)
@@ -280,6 +306,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @PointerPosition.started -= instance.OnPointerPosition;
             @PointerPosition.performed -= instance.OnPointerPosition;
             @PointerPosition.canceled -= instance.OnPointerPosition;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IKeyboardAndMouseActions instance)
@@ -312,5 +341,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnIsAiming(InputAction.CallbackContext context);
         void OnPointerPosition(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

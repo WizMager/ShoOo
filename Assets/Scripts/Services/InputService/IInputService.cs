@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using R3;
+using UnityEngine;
 
 namespace Services.InputService
 {
@@ -7,6 +8,7 @@ namespace Services.InputService
         bool IsAttack { get; }
         public bool IsMoving { get; }
         bool IsAiming { get; }
+        Observable<Unit> Reloading { get; }
         public Vector3 MoveDirection { get; }
         Vector2 AimPosition { get; }
     }

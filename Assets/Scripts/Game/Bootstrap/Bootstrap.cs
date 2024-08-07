@@ -12,7 +12,7 @@ namespace Game.Bootstrap
         private readonly List<IFixedUpdatable> _fixedUpdatables = new();
         private readonly List<ILateUpdatable> _lateUpdatables = new();
 
-        public Bootstrap(List<ISystem> systems)
+        public Bootstrap(List<IController> systems)
         {
             foreach (var system in systems)
             {
