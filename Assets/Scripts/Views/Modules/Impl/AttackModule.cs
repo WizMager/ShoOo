@@ -27,6 +27,11 @@ namespace Views.Modules.Impl
         {
             _currentWeapon.Shoot();
         }
+
+        public void Reload()
+        {
+            _currentWeapon.Reload();
+        }
         
         public void ChangeWeapon(EWeaponType weaponType)
         {

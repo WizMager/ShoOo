@@ -26,7 +26,7 @@ namespace Game.Controllers.Controls
 
         private void OnReloading()
         {
-            _attackModule.Reloading();
+            _attackModule.Reload();
         }
 
         public void Dispose()

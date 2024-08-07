@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using R3;
+﻿using R3;
 using UnityEngine;
 using Utils.ObjectPool;
 using Views.Impl.Projectile.Impl;
@@ -85,15 +84,6 @@ namespace Utils.Weapons.Impl
             
             projectileView.ActivateProjectile(Damage);
             projectileView.Fly(ProjectileSpeed, shotDirection);
-        }
-        
-        //TODO: rework this crutch
-        private async UniTaskVoid Reloading()
-        {
-            await UniTask.WaitForSeconds(ReloadTime);
-
-            IsReloading = false;
-            CurrentProjectilesInMagazine = MagazineSize;
         }
         
         private void OnExistProjectileEnded(ShotgunBullet shotgunBullet)

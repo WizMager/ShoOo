@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace Utils.Weapons
@@ -20,5 +21,26 @@ namespace Utils.Weapons
         
         public abstract void Initialize();
         public abstract void Shoot();
+
+        public void Reload()
+        {
+            if(IsReloading)
+                return;
+
+            if (CurrentProjectilesInMagazine >= MagazineSize)
+                return;
+            
+            IsReloading = true;
+            
+            Reloading().Forget();
+        }
+        
+        // TODO: maybe rework
+        protected async UniTaskVoid Reloading()
+        {
+            await UniTask.WaitForSeconds(ReloadTime);
+            IsReloading = false;
+            CurrentProjectilesInMagazine = MagazineSize;
+        }
     }
 }
