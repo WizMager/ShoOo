@@ -4,7 +4,7 @@ using Providers.GameFieldProvider;
 using Services.InputService;
 using Views.Modules.Impl;
 
-namespace Game.Controllers.Controls
+namespace Game.Controllers.Movement
 {
     [Install(EExecutionPriority.Normal, 50)]
     public class MovementController : IUpdatable

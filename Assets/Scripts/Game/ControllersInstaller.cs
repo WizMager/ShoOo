@@ -1,5 +1,7 @@
-using Game.Controllers.Controls;
+using Game.Controllers.Enemy;
 using Game.Controllers.Initialize;
+using Game.Controllers.Movement;
+using Game.Controllers.Weapon;
 using Zenject;
 
 //------------------------------------------------------------------------------

@@ -48,7 +48,6 @@ namespace Game.Bootstrap
         
         public void Tick()
         {
-            
             foreach (var updatable in _updatables)
             {
                 updatable.Update();

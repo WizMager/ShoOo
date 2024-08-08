@@ -10,6 +10,7 @@ namespace Services.InputService.Impl
         public bool IsMoving { get; private set; }
         public bool IsAiming { get; private set; }
         public Observable<Unit> Reloading => _reloadingCommand;
+        public Observable<Unit> Test => _testCommand;
         public Vector3 MoveDirection
         {
             get
@@ -22,6 +23,7 @@ namespace Services.InputService.Impl
 
         private readonly InputActions _inputActions;
         private readonly ReactiveCommand<Unit> _reloadingCommand = new();
+        private readonly ReactiveCommand<Unit> _testCommand = new();
 
         public InputService()
         {
@@ -38,6 +40,7 @@ namespace Services.InputService.Impl
             _inputActions.KeyboardAndMouse.IsAiming.canceled += _ => IsAiming = false;
             
             _inputActions.KeyboardAndMouse.Reload.performed += _ => _reloadingCommand.Execute(default);
+            _inputActions.KeyboardAndMouse.Test.performed += _ => _testCommand.Execute(default);
         }
         
         public void Dispose()

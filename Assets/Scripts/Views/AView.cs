@@ -11,13 +11,13 @@ namespace Views
     {
         [SerializeField] protected List<AModule> modules = new ();
 
-        private readonly CompositeDisposable _disposable = new ();
+        protected readonly CompositeDisposable Disposable = new ();
         
         public virtual void Initialize()
         {
             foreach (var module in modules)
             {
-                module.Initialize(this, _disposable);
+                module.Initialize(this, Disposable);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Views
         
         public void Dispose()
         {
-            _disposable.Dispose();
+            Disposable.Dispose();
         }
     }
 }

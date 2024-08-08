@@ -71,6 +71,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec21506b-17de-4f15-a9f0-cef47ee46a9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d03e3727-ab36-4ce7-a6e2-27b1e02e83d5"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Main"",
+                    ""action"": ""Test"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -191,6 +211,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_KeyboardAndMouse_IsAiming = m_KeyboardAndMouse.FindAction("IsAiming", throwIfNotFound: true);
         m_KeyboardAndMouse_PointerPosition = m_KeyboardAndMouse.FindAction("PointerPosition", throwIfNotFound: true);
         m_KeyboardAndMouse_Reload = m_KeyboardAndMouse.FindAction("Reload", throwIfNotFound: true);
+        m_KeyboardAndMouse_Test = m_KeyboardAndMouse.FindAction("Test", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -257,6 +278,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyboardAndMouse_IsAiming;
     private readonly InputAction m_KeyboardAndMouse_PointerPosition;
     private readonly InputAction m_KeyboardAndMouse_Reload;
+    private readonly InputAction m_KeyboardAndMouse_Test;
     public struct KeyboardAndMouseActions
     {
         private @InputActions m_Wrapper;
@@ -266,6 +288,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @IsAiming => m_Wrapper.m_KeyboardAndMouse_IsAiming;
         public InputAction @PointerPosition => m_Wrapper.m_KeyboardAndMouse_PointerPosition;
         public InputAction @Reload => m_Wrapper.m_KeyboardAndMouse_Reload;
+        public InputAction @Test => m_Wrapper.m_KeyboardAndMouse_Test;
         public InputActionMap Get() { return m_Wrapper.m_KeyboardAndMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -290,6 +313,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @Test.started += instance.OnTest;
+            @Test.performed += instance.OnTest;
+            @Test.canceled += instance.OnTest;
         }
 
         private void UnregisterCallbacks(IKeyboardAndMouseActions instance)
@@ -309,6 +335,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @Test.started -= instance.OnTest;
+            @Test.performed -= instance.OnTest;
+            @Test.canceled -= instance.OnTest;
         }
 
         public void RemoveCallbacks(IKeyboardAndMouseActions instance)
@@ -342,5 +371,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnIsAiming(InputAction.CallbackContext context);
         void OnPointerPosition(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnTest(InputAction.CallbackContext context);
     }
 }

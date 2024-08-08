@@ -3,10 +3,9 @@ using Generator;
 using Providers.GameFieldProvider;
 using Services.InputService;
 using UnityEngine;
-using Views.Impl;
 using Views.Modules.Impl;
 
-namespace Game.Controllers.Controls
+namespace Game.Controllers.Movement
 {
     [Install(EExecutionPriority.Normal, 45)]
     public class AimingController : IUpdatable

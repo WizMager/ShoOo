@@ -6,12 +6,12 @@ using R3;
 using Services.InputService;
 using Views.Modules.Impl;
 
-namespace Game.Controllers.Controls
+namespace Game.Controllers.Weapon
 {
     [Install(EExecutionPriority.Normal, 70)]
-    public class ReloadingController : IController, IDisposable
+    public class ReloadingController : IDisposable
     {
-        private readonly AttackModule _attackModule;
+        private readonly WeaponModule _weaponModule;
         private readonly IDisposable _disposable;
 
         public ReloadingController(
@@ -19,14 +19,14 @@ namespace Game.Controllers.Controls
             IGameFieldProvider gameFieldProvider)
         {
             var playerView = gameFieldProvider.GameField.PlayerCharacterView;
-            _attackModule = playerView.GetModule<AttackModule>();
+            _weaponModule = playerView.GetModule<WeaponModule>();
             
             _disposable = inputService.Reloading.Subscribe(_ => OnReloading());
         }
 
         private void OnReloading()
         {
-            _attackModule.Reload();
+            _weaponModule.Reload();
         }
 
         public void Dispose()

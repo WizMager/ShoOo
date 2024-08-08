@@ -6,14 +6,14 @@ using UnityEngine;
 using Views.Impl;
 using Views.Modules.Impl;
 
-namespace Game.Controllers.Controls
+namespace Game.Controllers.Weapon
 {
     [Install(EExecutionPriority.Normal, 55)]
     public class AttackController : IUpdatable
     {
         private readonly PlayerCharacterView _playerView;
         private readonly IInputService _inputService;
-        private readonly AttackModule _attackModule;
+        private readonly WeaponModule _weaponModule;
 
         private float _shootCooldown;
         
@@ -24,7 +24,7 @@ namespace Game.Controllers.Controls
         {
             _inputService = inputService;
             var playerView = gameFieldProvider.GameField.PlayerCharacterView;
-            _attackModule = playerView.GetModule<AttackModule>();
+            _weaponModule = playerView.GetModule<WeaponModule>();
         }
         
         public void Update()
@@ -38,8 +38,8 @@ namespace Game.Controllers.Controls
             
             if (!_inputService.IsAttack) return;
             
-            _attackModule.Shoot();
-            _shootCooldown = _attackModule.FireRate;
+            _weaponModule.Shoot();
+            _shootCooldown = _weaponModule.FireRate;
         }
     }
 }

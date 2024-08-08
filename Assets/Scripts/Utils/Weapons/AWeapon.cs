@@ -38,6 +38,7 @@ namespace Utils.Weapons
         // TODO: maybe rework
         protected async UniTaskVoid Reloading()
         {
+            Debug.Log($"Reloading... {CurrentProjectilesInMagazine}/{MagazineSize}");
             await UniTask.WaitForSeconds(ReloadTime);
             IsReloading = false;
             CurrentProjectilesInMagazine = MagazineSize;

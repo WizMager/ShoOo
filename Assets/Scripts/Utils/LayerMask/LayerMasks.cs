@@ -3,8 +3,10 @@
     public class LayerMasks
     {
         public static int Enemy => EnemyMask.Value;
+        public static int DroppedWeapon => DroppedWeaponMask.Value;
         
         private static readonly Mask EnemyMask = new(Layers.Enemy);
+        private static readonly Mask DroppedWeaponMask = new(Layers.DroppedWeapon);
         
         private class Mask
         {

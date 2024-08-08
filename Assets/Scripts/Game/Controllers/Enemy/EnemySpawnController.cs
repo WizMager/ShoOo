@@ -6,7 +6,7 @@ using Services.EnemySpawnService;
 using UnityEngine;
 using Utils.EnemySpawner;
 
-namespace Game.Controllers.Controls
+namespace Game.Controllers.Enemy
 {
     [Install(EExecutionPriority.Normal, 100)]
     public class EnemySpawnController : IFixedUpdatable

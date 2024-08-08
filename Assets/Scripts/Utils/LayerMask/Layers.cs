@@ -3,10 +3,13 @@
     public class Layers
 	{
 		public const string Enemy = "Enemy";
+		public const string DroppedWeapon = "DroppedWeapon";
 
 		private static readonly Layer _enemyLayer = new (Enemy);
+		private static readonly Layer _droppedWeaponLayer = new (DroppedWeapon);
 
 		public static int EnemyLayer => _enemyLayer.Id;
+		public static int DroppedWeaponLayer => _droppedWeaponLayer.Id;
 
 		private class Layer
 		{
