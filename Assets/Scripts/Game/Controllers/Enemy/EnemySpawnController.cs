@@ -2,9 +2,12 @@
 using Game.Bootstrap.Interfaces;
 using Generator;
 using Providers.GameFieldProvider;
+using R3;
 using Services.EnemySpawnService;
 using UnityEngine;
 using Utils.EnemySpawner;
+using Views.Impl.Ai;
+using Views.Modules.Impl;
 
 namespace Game.Controllers.Enemy
 {
@@ -13,6 +16,7 @@ namespace Game.Controllers.Enemy
     {
         private readonly List<EnemySpawner> _enemySpawners;
         private readonly IEnemySpawnService _enemySpawnService;
+        private readonly CompositeDisposable _disposable = new ();
 
         public EnemySpawnController(
             IGameFieldProvider gameFieldProvider, 
@@ -25,8 +29,8 @@ namespace Game.Controllers.Enemy
         
         public void FixedUpdate()
         {
-            if (_enemySpawners.Count == 0) 
-                return;
+            // if (_enemySpawners.Count == 0) 
+            //     return;
             
             CheckNeedSpawn();
         }
@@ -62,19 +66,39 @@ namespace Game.Controllers.Enemy
 
         private bool TrySpawnEnemy(EAiType aiType, Vector3 spawnerPosition, float spawnRadius)
         {
-            var aiView = _enemySpawnService.Spawn(aiType);
+            Debug.Log("TRY SPAWN");
+            var spawnTulip = _enemySpawnService.Spawn(aiType);
             
-            if (!aiView)
+            if (!spawnTulip.aiView)
             {
                 return false;
             }
             
+            var healthModule = spawnTulip.aiView.GetModule<HealthModule>();
+            if (!healthModule)
+            {
+                Debug.LogError($"[{nameof(EnemySpawnController)}]: There is no {nameof(HealthModule)} on this aiView: {spawnTulip.aiView.gameObject.name}");
+            }
+            else
+            {
+                if (spawnTulip.isNewAi || !_disposable.Contains(spawnTulip.aiView))
+                {
+                    Debug.Log($"Check subscribe aiView: {spawnTulip.aiView.gameObject.name}/{spawnTulip.aiView.GetHashCode()}");
+                    healthModule.AiExistEnded.Subscribe(_ => OnAiExistEnded(spawnTulip.aiView)).AddTo(_disposable);
+                }
+            }
+            
             var randomPosition = Random.insideUnitCircle * spawnRadius;
             var position = spawnerPosition + new Vector3(randomPosition.x, 0, randomPosition.y);
-            aiView.transform.position = position;
-            aiView.ActivateAi();
+            spawnTulip.aiView.transform.position = position;
+            spawnTulip.aiView.ActivateAi();
 
             return true;
+        }
+
+        private void OnAiExistEnded(AAiView aiView)
+        {
+            _enemySpawnService.Despawn(aiView);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Utils.ObjectPool
         
         public bool IsReady => _aiViews.Count > 0;
 
-        public AiPool(AssetReference aiPrefab, int size = 5)
+        public AiPool(AssetReference aiPrefab, int size = 1)
         {
             var poolContainer = new GameObject($"AiPool{typeof(T).Name}Container");
             _poolContainerTransform = poolContainer.transform;
@@ -26,9 +26,16 @@ namespace Utils.ObjectPool
             InstantiateAiAtStart(size).Forget();
         }
         
-        public T GetAi()
+        public (bool isNewAi, T aiView) GetAi()
         {
-            return _aiViews.Count > 0 ? _aiViews.Dequeue() : InstantiateAi();
+            if (_aiViews.Count <= 1) 
+                return (true, InstantiateAi());
+            
+            var projectile = _aiViews.Dequeue();
+            
+            projectile.transform.SetParent(null);
+                
+            return (false, projectile);
         }
 
         public void ReleaseAi(T ai)

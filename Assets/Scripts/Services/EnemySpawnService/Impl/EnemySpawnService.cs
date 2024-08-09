@@ -27,7 +27,6 @@ namespace Services.EnemySpawnService.Impl
                 {
                     case EAiType.Melee:
                         var prefab = _prefabBase.GetAiPrefabWithType(EAiType.Melee);
-                        
                         _meleeAiPool = new AiPool<MeleeAiView>(prefab);
                         break;
                     default:
@@ -36,12 +35,12 @@ namespace Services.EnemySpawnService.Impl
             }
         }
         
-        public AAiView Spawn(EAiType aiType)
+        public (bool isNewAi, AAiView aiView) Spawn(EAiType aiType)
         {
             switch (aiType)
             {
                 case EAiType.Melee:
-                    return !_meleeAiPool.IsReady ? null : _meleeAiPool.GetAi();
+                    return !_meleeAiPool.IsReady ? (false, null) : _meleeAiPool.GetAi();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(aiType), aiType, null);
             }

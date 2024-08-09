@@ -4,7 +4,7 @@ namespace Services.EnemySpawnService
 {
     public interface IEnemySpawnService
     {
-        AAiView Spawn(EAiType aiType);
+        (bool isNewAi, AAiView aiView) Spawn(EAiType aiType);
         
         void Despawn(AAiView ai);
     }

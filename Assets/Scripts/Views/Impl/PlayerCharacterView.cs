@@ -19,8 +19,7 @@ namespace Views.Impl
 
         private void OnTriggerEntered(Collider other)
         {
-            //if ((other.gameObject.layer & Layers.DroppedWeaponLayer) == 0) return;
-            if (LayerMasks.DroppedWeapon != (LayerMasks.DroppedWeapon | (1 << other.gameObject.layer))) 
+            if ((other.gameObject.layer & Layers.DroppedWeaponLayer) == 0) 
                 return;
             
             if (!other.TryGetComponent<IDroppedWeapon>(out var droppedWeapon)) 
