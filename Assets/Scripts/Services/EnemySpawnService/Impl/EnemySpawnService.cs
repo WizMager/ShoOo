@@ -1,5 +1,6 @@
 ﻿using System;
 using Configs.PrefabBase;
+using R3;
 using Utils.ObjectPool;
 using Views.Impl.Ai;
 using Views.Impl.Ai.Impl;
@@ -12,6 +13,8 @@ namespace Services.EnemySpawnService.Impl
         private readonly IPrefabBase _prefabBase;
         private AiPool<MeleeAiView> _meleeAiPool;
 
+        public Action<AAiView[]> AiInstantiated { get; set; }
+        
         public EnemySpawnService(IPrefabBase prefabBase)
         {
             _prefabBase = prefabBase;
@@ -28,13 +31,19 @@ namespace Services.EnemySpawnService.Impl
                     case EAiType.Melee:
                         var prefab = _prefabBase.GetAiPrefabWithType(EAiType.Melee);
                         _meleeAiPool = new AiPool<MeleeAiView>(prefab);
+                        _meleeAiPool.StartInstantiateFinished.Subscribe(OnStartInstantiateFinished);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
         }
-        
+
+        private void OnStartInstantiateFinished(AAiView[] aiViews)
+        {
+            AiInstantiated?.Invoke(aiViews);
+        }
+
         public (bool isNewAi, AAiView aiView) Spawn(EAiType aiType)
         {
             switch (aiType)

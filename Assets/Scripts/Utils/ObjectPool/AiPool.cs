@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -14,8 +15,10 @@ namespace Utils.ObjectPool
         private readonly Queue<T> _aiViews = new ();
         private readonly AssetReference _aiPrefab;
         private readonly Transform _poolContainerTransform;
+        private readonly ReactiveCommand<AAiView[]> _startInstantiateFinishedCommand = new();
         
         public bool IsReady => _aiViews.Count > 0;
+        public Observable<AAiView[]> StartInstantiateFinished => _startInstantiateFinishedCommand;
 
         public AiPool(AssetReference aiPrefab, int size = 1)
         {
@@ -28,7 +31,7 @@ namespace Utils.ObjectPool
         
         public (bool isNewAi, T aiView) GetAi()
         {
-            if (_aiViews.Count <= 1) 
+            if (_aiViews.Count <= 0)
                 return (true, InstantiateAi());
             
             var projectile = _aiViews.Dequeue();
@@ -75,6 +78,8 @@ namespace Utils.ObjectPool
                 
                 _aiViews.Enqueue(aiView);
             }
+            
+            _startInstantiateFinishedCommand?.Execute(_aiViews.ToArray());
         }
         
         private T InstantiateAi()

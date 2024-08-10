@@ -25,13 +25,30 @@ namespace Game.Controllers.Enemy
         {
             _enemySpawnService = enemySpawnService;
             _enemySpawners = gameFieldProvider.GameField.EnemySpawners;
+
+            Observable.FromEvent( _ =>_enemySpawnService.AiInstantiated += OnSubscribeToStartInstantiatedAi,
+                _ => _enemySpawnService.AiInstantiated -= OnSubscribeToStartInstantiatedAi);
         }
-        
+
+        private void OnSubscribeToStartInstantiatedAi(AAiView[] aiViews)
+        {
+            foreach (var aiView in aiViews)
+            {
+                var healthModule = aiView.GetModule<HealthModule>();
+                if (!healthModule)
+                {
+                    Debug.LogError($"[{nameof(EnemySpawnController)}]: There is no {nameof(HealthModule)} on this aiView: {aiView.gameObject.name}");
+                }
+                else
+                {
+                    Debug.Log($"Check subscribe aiView: {aiView.gameObject.name}/{aiView.GetHashCode()}");
+                    healthModule.AiExistEnded.Subscribe(_ => OnAiExistEnded(aiView)).AddTo(_disposable);
+                }
+            }
+        }
+
         public void FixedUpdate()
         {
-            // if (_enemySpawners.Count == 0) 
-            //     return;
-            
             CheckNeedSpawn();
         }
         
@@ -66,7 +83,6 @@ namespace Game.Controllers.Enemy
 
         private bool TrySpawnEnemy(EAiType aiType, Vector3 spawnerPosition, float spawnRadius)
         {
-            Debug.Log("TRY SPAWN");
             var spawnTulip = _enemySpawnService.Spawn(aiType);
             
             if (!spawnTulip.aiView)
@@ -81,7 +97,7 @@ namespace Game.Controllers.Enemy
             }
             else
             {
-                if (spawnTulip.isNewAi || !_disposable.Contains(spawnTulip.aiView))
+                if (spawnTulip.isNewAi)
                 {
                     Debug.Log($"Check subscribe aiView: {spawnTulip.aiView.gameObject.name}/{spawnTulip.aiView.GetHashCode()}");
                     healthModule.AiExistEnded.Subscribe(_ => OnAiExistEnded(spawnTulip.aiView)).AddTo(_disposable);
@@ -98,7 +114,21 @@ namespace Game.Controllers.Enemy
 
         private void OnAiExistEnded(AAiView aiView)
         {
+            var aiType = aiView.AiType;
+            
             _enemySpawnService.Despawn(aiView);
+
+            foreach (var enemySpawner in _enemySpawners)
+            {
+                foreach (var spawnDataVo in enemySpawner.EnemySpawnDataVoList)
+                {
+                    if (spawnDataVo.aiType != aiType)
+                        continue;
+                    
+                    spawnDataVo.currentNumber--;
+                    break;
+                }
+            }
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿using Views.Impl.Ai;
+﻿using System;
+using Views.Impl.Ai;
 
 namespace Services.EnemySpawnService
 {
     public interface IEnemySpawnService
     {
-        (bool isNewAi, AAiView aiView) Spawn(EAiType aiType);
+        Action<AAiView[]> AiInstantiated { get; set; }
         
+        (bool isNewAi, AAiView aiView) Spawn(EAiType aiType);
         void Despawn(AAiView ai);
     }
 }
