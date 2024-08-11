@@ -11,9 +11,10 @@ namespace Services.EnemySpawnService.Impl
     public class EnemySpawnService : IEnemySpawnService, IInitializable
     {
         private readonly IPrefabBase _prefabBase;
+        private readonly ReactiveCommand<AAiView[]> _aiInstantiated = new ();
         private AiPool<MeleeAiView> _meleeAiPool;
-
-        public Action<AAiView[]> AiInstantiated { get; set; }
+        
+        public Observable<AAiView[]> AiInstantiated => _aiInstantiated;
         
         public EnemySpawnService(IPrefabBase prefabBase)
         {
@@ -41,7 +42,7 @@ namespace Services.EnemySpawnService.Impl
 
         private void OnStartInstantiateFinished(AAiView[] aiViews)
         {
-            AiInstantiated?.Invoke(aiViews);
+            _aiInstantiated.Execute(aiViews);
         }
 
         public (bool isNewAi, AAiView aiView) Spawn(EAiType aiType)

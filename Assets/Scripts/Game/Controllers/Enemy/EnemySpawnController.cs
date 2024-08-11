@@ -26,11 +26,10 @@ namespace Game.Controllers.Enemy
             _enemySpawnService = enemySpawnService;
             _enemySpawners = gameFieldProvider.GameField.EnemySpawners;
 
-            Observable.FromEvent( _ =>_enemySpawnService.AiInstantiated += OnSubscribeToStartInstantiatedAi,
-                _ => _enemySpawnService.AiInstantiated -= OnSubscribeToStartInstantiatedAi);
+            _enemySpawnService.AiInstantiated.Subscribe(OnInstantiatedAi).AddTo(_disposable);
         }
 
-        private void OnSubscribeToStartInstantiatedAi(AAiView[] aiViews)
+        private void OnInstantiatedAi(AAiView[] aiViews)
         {
             foreach (var aiView in aiViews)
             {
