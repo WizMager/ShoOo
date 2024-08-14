@@ -1,10 +1,13 @@
-﻿using Game.Bootstrap.Interfaces;
+﻿using System;
+using Game.Bootstrap.Interfaces;
 using Generator;
 using Providers.GameFieldProvider;
+using R3;
 using Services.InputService;
 using UnityEngine;
 using Views.Impl;
 using Views.Modules.Impl;
+using Views.Modules.Impl.Animations;
 
 namespace Game.Controllers.Weapon
 {
@@ -14,6 +17,7 @@ namespace Game.Controllers.Weapon
         private readonly PlayerCharacterView _playerView;
         private readonly IInputService _inputService;
         private readonly WeaponModule _weaponModule;
+        private readonly ShootAnimationModule _shootAnimationModule;
 
         private float _shootCooldown;
         
@@ -25,6 +29,7 @@ namespace Game.Controllers.Weapon
             _inputService = inputService;
             var playerView = gameFieldProvider.GameField.PlayerCharacterView;
             _weaponModule = playerView.GetModule<WeaponModule>();
+            _shootAnimationModule = playerView.GetModule<ShootAnimationModule>();
         }
         
         public void Update()
@@ -39,7 +44,15 @@ namespace Game.Controllers.Weapon
             if (!_inputService.IsAttack) return;
             
             _weaponModule.Shoot();
+            
+            _shootAnimationModule.PlayShootAnimation();
+            
             _shootCooldown = _weaponModule.FireRate;
+
+            Observable.Timer(TimeSpan.FromSeconds(0.3f)).Subscribe(_ =>
+            {
+                _shootAnimationModule.StopShootAnimation();
+            });
         }
     }
 }
